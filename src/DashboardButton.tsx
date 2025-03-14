@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 
 const DashboardButton = styled(Button)(() => ({
   backgroundColor: '#FFDCD3',
-  padding: "20px",
+  padding: "18px",
   margin: "20px",
   color: "#916239",
   fontWeight: "bold",
