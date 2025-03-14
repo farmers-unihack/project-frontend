@@ -37,7 +37,6 @@ p{
   min-height: 100vh;
 }
 
-/* Modal overlay and content styling */
 .modal{
   position: fixed;
   display: flex;
@@ -115,6 +114,14 @@ p{
   color: #102770;
 }
 
+.overlay-list {
+    position: absolute;
+    top: 30%;  
+    left: 51%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  
 @media screen and (max-width: 500px) {
   .modal-wrap {
     width: calc(100% - 40px);

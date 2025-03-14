@@ -1,0 +1,27 @@
+.pretty-list {
+    list-style: none;
+    padding: 10px 20px;
+    margin: 0;
+    border-radius: 8px;
+    color: rgb(250, 228, 239);         
+    font-weight: bold;     
+    font-size: 28px;    
+    text-align: center;  
+  }
+  
+  .pretty-list-item {
+    margin: 5px 0;
+  }
+  
+  .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-checkbox {
+  width: 24px;
+  height: 24px;
+  accent-color: red;
+ /*TODO: the checked box doesn't work.. will fix later??*/
+}
