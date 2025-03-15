@@ -100,7 +100,10 @@ const Dashboard: React.FC = () => {
         }}
       />
       
-      <CollectibleComponents/>
+      <div className="absolute inset-0 flex justify-center items-center scale-[calc(1+((100vw - 1280px)/1280))]">
+        <CollectibleComponents />
+      </div>
+
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
