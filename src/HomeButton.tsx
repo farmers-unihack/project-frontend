@@ -12,7 +12,7 @@ const HomeButton: React.FC = () => {
   return (
     <button
       onClick={handleHome}
-      className="absolute top-4 left-7"
+      className="absolute top-10 left-7"
       style={{ background: 'none', border: 'none', cursor: 'pointer' }}
     >
       <img

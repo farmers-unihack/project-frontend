@@ -21,6 +21,7 @@ import Loading from './Loading'
 import InventoryModal from "../InventoryModal";
 import HomeButton from '../HomeButton';
 import LogoutButton from '../LogoutButton';
+import roomCodeSign from '../assets/room_code_sign.png';
 
 const Dashboard: React.FC = () => {
   const POLLING_INTERVAL = 10e3; // 1 minute
@@ -174,7 +175,14 @@ const Dashboard: React.FC = () => {
           </div>
           <HomeButton/>
           <LogoutButton/>
-
+          <div className="absolute top-0 left-45">
+            <img
+              className="hover:scale-110"
+              src={roomCodeSign}
+              alt="Sign"
+              style={{ width: '200px'}}
+            />
+          </div>
           <div className="absolute top-4 right-4">
             <img
               className="hover:scale-110"

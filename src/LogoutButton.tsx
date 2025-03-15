@@ -18,7 +18,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = () => {
   return (
     <button
       onClick={handleLogout}
-      className="absolute top-35 left-4"
+      className="absolute top-40 left-4"
       style={{ background: 'none', border: 'none', cursor: 'pointer' }}
     >
       <img
