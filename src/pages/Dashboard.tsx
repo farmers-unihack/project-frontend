@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import backgroundImage from '../assets/game_states/background.png';
 import one_cat from '../assets/game_states/one-cat.png';
-import two_cat from '../assets/game_states/two-cat.png';
-import three_cat from '../assets/game_states/three-cat.png';
-import four_cat from '../assets/game_states/four-cat.png';
+import two_cat from '../assets/cat_layers/second_cat.png';
+import third_cat from '../assets/cat_layers/third_cat.png';
+import fourth_cat from '../assets/cat_layers/fourth_cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud";
 import BlocklistModal from "../BlocklistModal";
@@ -22,7 +22,7 @@ import restClient from '../utils/rest.util';
 
 const Dashboard: React.FC = () => {
   const POLLING_INTERVAL = 60e3; // 1 minute
-  const [numActiveUsers, setNumActiveUsers] = useState<number>(0);
+  const [activeUsers, setActiveUsers] = useState<{ username: string }[]>([]);
   const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
   const [collectibles, setCollectibles] = useState([]);
 
@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
     try {
       const response = await restClient.get('/group/poll');
       if (response.success) {
-        setNumActiveUsers(response.data.active_users.length);
+        setActiveUsers(response.data.active_users);
         setTotalFocusTime(response.data.total_time);
         setCollectibles(response.data.collectibles);
       }
@@ -60,20 +60,17 @@ const Dashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getBackgroundImage = () => {
-    switch (numActiveUsers) {
+  const getCatLayer = (index: number) => {
+    switch (index) {
+      case 0:
+        return two_cat
       case 1:
-        return one_cat;
+        return third_cat
       case 2:
-        return two_cat;
-      case 3:
-        return three_cat;
-      case 4:
-        return four_cat;
-      default:
-        return backgroundImage;
+        return fourth_cat
     }
-  };
+    return undefined
+  }
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -88,48 +85,73 @@ const Dashboard: React.FC = () => {
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
       </div>
-  
+
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url(${getBackgroundImage()})`,
+          backgroundImage: `url(${one_cat})`,
           backgroundSize: '90vw 90vh',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
           zIndex: 1,
         }}
       />
-      
-      <CollectibleComponents/>
+
+      {activeUsers.map((_, index) => (
+        <div
+          key={index}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${getCatLayer(index)})`,
+            backgroundSize: '90vw 90vh',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
+            zIndex: 2,
+          }}
+        />
+      ))}
+
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: '90vw 90vh',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
+          zIndex: 1,
+        }}
+      />
+
+      <CollectibleComponents />
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
-            <div className="flex flex-row justify-between m-5">
-              <div className="flex flex-row space-x-20">
-                <div className="relative inline-block hover:scale-110" onClick={openModal}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span  style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
-                    Tasks
-                  </span>
-                </div >
-                <div className="relative inline-block hover:scale-110"  onClick={openInsights}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
-                    Insights
-                  </span>
-                </div>
+          <div className="flex flex-row justify-between m-5">
+            <div className="flex flex-row space-x-20">
+              <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                  Tasks
+                </span>
+              </div >
+              <div className="relative inline-block hover:scale-110" onClick={openInsights}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
+                  Insights
+                </span>
               </div>
+            </div>
 
+            <div>
               <div>
-                <div>
-                  <img 
-                    src={soundBarImage} 
-                    alt="Sound Bar" 
-                    className="w-[300px] h-[100px] mt-10" 
-                  />
-                  <MusicPlayer />
-                </div>
+                <img
+                  src={soundBarImage}
+                  alt="Sound Bar"
+                  className="w-[300px] h-[100px] mt-10"
+                />
+                <MusicPlayer />
               </div>
+            </div>
 
             <div className="flex flex-row space-x-20">
               <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
