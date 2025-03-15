@@ -6,6 +6,7 @@ import Modal from '../Modal';
 import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png'
 import playerImage from '../assets/player.png'
+import Starfall from '../Starfall';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen">
-      {showRain && <RainEffect />}
+      {showRain ? <RainEffect /> : <Starfall />}
       <div
         className="absolute inset-0"
         style={{
@@ -30,7 +31,6 @@ const Dashboard: React.FC = () => {
                 backgroundPosition: 'center',
               }
             : {
-                backgroundColor: "#e4ffe1",
               }),
           zIndex: 1,
         }}
