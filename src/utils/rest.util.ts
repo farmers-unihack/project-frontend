@@ -127,7 +127,7 @@ export class RestClient {
         config.headers = options.headers || Object.create(null);
         const token = localStorage.getItem("accessToken") || ""
         if (token)
-            config.headers!['Authorization'] = token;
+            config.headers!['x-access-token'] = token;
 
         if (options.method == RequestMethod.Post)
             config.data = options.data;
