@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Modal.css';
 import signFrameImage from './assets/cafe_sign_frame.png';
 import PrettyList from './PrettyList';
@@ -13,18 +13,42 @@ interface Task {
   id: string;
   name: string;
   completed: boolean;
+  completion_date: {$date: string};
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const SHOWN_TIME_FRAME = 60e3 * 30; // 30 minutes
   const [tasks, setTasks] = useState<Task[]>([]);
-
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const toggleTaskCompletion = async (taskId: string) => {
-    await restClient.put(`/task/update`, { data: { task_id: taskId, completed: true }, headers: { "Content-Type": "application/json" } });
-    const newTaskList = await restClient.get('/task/');
-    setTasks(newTaskList.data);
+  const fetchTasks = async () => {
+    const taskList = await restClient.get('/task/');
+    if (!taskList.success) {
+      console.error('Failed to fetch tasks', taskList.data.msg);
+      setError('Failed to fetch tasks');
+      return;
+    }
+    const filteredTasks = taskList.data.filter((task: Task) => {
+      if (!task.completed) {
+        return true;
+      }
+      const completedAt = new Date(task.completion_date.$date).getTime();
+      const oneHourAgo = new Date(Date.now() - SHOWN_TIME_FRAME).getTime();
+      return completedAt >= oneHourAgo;
+    });
+
+    setTasks(filteredTasks);
+  };
+
+  useEffect(() => {
+
+    fetchTasks();
+  }, []);
+
+  const toggleTaskCompletion = async (taskId: string, taskCompletedState: boolean) => {
+    await restClient.post(`/task/update`, { data: { task_id: taskId, task_completed: !taskCompletedState }, headers: { "Content-Type": "application/json" } });
+    await fetchTasks();
   };
 
   const handleNewTaskInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +61,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       if (!response.success) {
         console.error('Failed to create task', response.data.msg);
         return;
-      }
-      const newTaskList = await restClient.get('/task/');
-      setTasks(newTaskList.data);
+      } ``
+      await fetchTasks();
       setNewTask('');
       setError(null);
     }
