@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
     try {
       const response = await restClient.get('/group/poll');
       if (response.success) {
-        setNumActiveUsers(response.data.num_active_users);
+        setNumActiveUsers(response.data.active_users.length);
         setTotalFocusTime(response.data.total_time);
         setCollectibles(response.data.collectibles);
       }
