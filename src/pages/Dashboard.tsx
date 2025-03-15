@@ -8,7 +8,7 @@ import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
 import BlocklistModal from "../BlocklistModal";
-import soundBarImage from '../assets/sound_bar.jpeg';
+import soundBarImage from '../assets/sound_bar.png';
 import { collectibles } from "../collectibles";
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
@@ -16,6 +16,7 @@ import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
+import CollectibleComponents from '../CollectibleComponents';
 
 
 const Dashboard: React.FC = () => {
@@ -33,6 +34,7 @@ const Dashboard: React.FC = () => {
   const toggleRain = (): void => setShowRain(prev => !prev);
 
   const numUsers = 4;
+  //TODO: numUsers should be retrieved from api call
   const getBackgroundImage = () => {
     switch (numUsers) {
       case 1:
@@ -53,6 +55,13 @@ const Dashboard: React.FC = () => {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
+      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
+         <img 
+           src={soundBarImage} 
+           alt="Sound Bar" 
+           className="w-[300px] h-[100px] mt-170" 
+         />
+       </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
@@ -69,20 +78,7 @@ const Dashboard: React.FC = () => {
         }}
       />
 
-      <div className="absolute inset-0 z-200 pointer-events-none">
-              {collectibles.map((collectible, index) => (
-                <img
-                  key={index}
-                  src={collectible.image}
-                  alt={collectible.name}
-                  className="absolute w-[50px] h-[50px]"
-                  style={{
-                    top: collectible.position.top,
-                    left: collectible.position.left,
-                  }}
-                />
-              ))}
-            </div>
+      <CollectibleComponents/>
 
       <div className="absolute inset-0 z-30">
         <div className="absolute top-4 left-4 flex flex-col space-y-20">
