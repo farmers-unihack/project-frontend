@@ -1,19 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './PrettyList.css';
 
 interface PrettyListProps {
-  items: string[];
+  items: { text: string; completed: boolean }[];
+  toggleTaskCompletion: (index: number) => void;
 }
 
-const PrettyList: React.FC<PrettyListProps> = ({ items }) => {
-  const [checkedItems, setCheckedItems] = useState<boolean[]>(items.map(() => false));
-
-  const handleCheckboxChange = (index: number): void => {
-    const newCheckedItems = [...checkedItems];
-    newCheckedItems[index] = !newCheckedItems[index];
-    setCheckedItems(newCheckedItems);
-  };
-
+const PrettyList: React.FC<PrettyListProps> = ({ items, toggleTaskCompletion }) => {
   return (
     <ul className="pretty-list">
       {items.map((item, index) => (
@@ -21,11 +14,10 @@ const PrettyList: React.FC<PrettyListProps> = ({ items }) => {
           <label className="checkbox-label">
             <input
               type="checkbox"
-              checked={checkedItems[index]}
-              onChange={() => handleCheckboxChange(index)}
+              onChange={() => toggleTaskCompletion(index)}
               className="task-checkbox"
             />
-            {item}
+            {item.text}
           </label>
         </li>
       ))}
