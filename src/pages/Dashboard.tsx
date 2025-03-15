@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import backgroundImage from '../assets/game_states/background.png';
 import one_cat from '../assets/game_states/one-cat.png';
 import two_cat from '../assets/game_states/two-cat.png';
@@ -8,7 +7,7 @@ import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
 import BlocklistModal from "../BlocklistModal";
-import soundBarImage from '../assets/sound_bar.jpeg';
+import soundBarImage from '../assets/sound_bar.png';
 import { collectibles } from "../collectibles";
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
@@ -16,6 +15,11 @@ import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
+import bush from '../assets/bush.png'
+import darkBush from '../assets/darkbush.png'
+import CollectibleComponents from '../CollectibleComponents';
+import moon from '../assets/moon.png';
+import cloud from '../assets/cloud.png';
 
 
 const Dashboard: React.FC = () => {
@@ -33,6 +37,7 @@ const Dashboard: React.FC = () => {
   const toggleRain = (): void => setShowRain(prev => !prev);
 
   const numUsers = 4;
+  //TODO: numUsers should be retrieved from api call
   const getBackgroundImage = () => {
     switch (numUsers) {
       case 1:
@@ -50,9 +55,20 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
-      <div className="absolute inset-0 z-20 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none"
+        style={{
+          background: showRain ? "#71687a" : "#a7cbef", 
+        }}
+      >
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
+      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
+         <img 
+           src={soundBarImage} 
+           alt="Sound Bar" 
+           className="w-[300px] h-[100px] mt-170" 
+         />
+       </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
@@ -69,51 +85,51 @@ const Dashboard: React.FC = () => {
         }}
       />
 
-      <div className="absolute inset-0 z-200 pointer-events-none">
-              {collectibles.map((collectible, index) => (
-                <img
-                  key={index}
-                  src={collectible.image}
-                  alt={collectible.name}
-                  className="absolute w-[50px] h-[50px]"
-                  style={{
-                    top: collectible.position.top,
-                    left: collectible.position.left,
-                  }}
-                />
-              ))}
-            </div>
-
+      
+      <CollectibleComponents/>
       <div className="absolute inset-0 z-30">
-        <div className="absolute top-4 left-4 flex flex-col space-y-20">
-          <DashboardButton
-            onClick={openModal}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Tasks
-          </DashboardButton>
-          <DashboardButton
-            onClick={openBlocklist}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Blocklist
-          </DashboardButton>
-          <DashboardButton
-            onClick={openInsights}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Insights
-          </DashboardButton>
+        <div className="min-h-screen flex flex-col">
+          <div className="flex-grow"></div>
+            <div className="flex flex-row justify-between m-5">
+              <div className="flex flex-row space-x-20">
+                <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span  style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                    Tasks
+                  </span>
+                </div >
+                <div className="relative inline-block hover:scale-110"  onClick={openInsights}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
+                    Insights
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-row space-x-20">
+                <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                    Blocklist
+                  </span>
+                </div>
+                <div className="relative inline-block hover:scale-110">
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                    Inventory
+                  </span>
+                </div>
+              </div>
+            </div>
         </div>
+        
         <div className="absolute top-4 right-4">
           <img
-            src={rainIcon}
+            className="hover:scale-110"
+            src={showRain ? cloud : moon}
             alt="Toggle Rain"
             onClick={toggleRain}
-            style={{ width: '80px', height: '80px', cursor: 'pointer' }}
+            style={{ width: '80px', cursor: 'pointer' }}
           />
         </div>
         <div className="absolute inset-0 pointer-events-none">
