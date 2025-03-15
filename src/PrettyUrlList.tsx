@@ -1,49 +1,50 @@
 import React from 'react';
 import './PrettyList.css';
 import TextField from '@mui/material/TextField';
+import dot from './assets/chalk_star.gif';
 
 interface PrettyListProps {
-  tasks: { 
+  urls: { 
     id: string;
     text: string;
-    completed: boolean;
   }[];
-  toggleTaskCompletion: (taskId: string) => void;
-  newTask: string;
-  handleNewTaskInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleNewTaskSubmit: () => void;
+  toggleUrlDeletion: (id: string) => void;
+  newUrl: string;
+  handleNewUrlInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleNewUrlSubmit: () => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, newTask, handleNewTaskInput, handleNewTaskSubmit, handleKeyDown }) => {
+const PrettyUrlList: React.FC<PrettyListProps> = ({ urls, toggleUrlDeletion, newUrl, handleNewUrlInput, handleNewUrlSubmit, handleKeyDown }) => {
   return (
   <ul className="pretty-list">
-    {tasks.map((task, index) => (
+    {urls.map((url, index) => (
       <li key={index} className="pretty-list-item flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={task.completed}
-          onChange={() => toggleTaskCompletion(task.id)}
-          className="cursor-pointer task-checkbox mt-2"
-        />
-        <span onClick={() => toggleTaskCompletion(task.id)} className={`hover:line-through whitespace-nowrap hover:text-gray-200 cursor-pointer ${task.completed ? 'line-through text-gray-200' : ''}`}>
-          {task.text}
+        <img 
+            src={dot} 
+            alt="Dot" 
+            className="task-dot cursor-pointer mt-3" 
+            style={{ width: '5%', height: '5%' }}
+          />
+        <span onClick={() => toggleUrlDeletion(url.id)} className="hover:line-through whitespace-nowrap hover:text-gray-200 cursor-pointer">
+          {url.text}
         </span>
       </li>
     ))}
     <li className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={false}
-          className="cursor-pointer mt-4"
-        />
+        <img 
+            src={dot} 
+            alt="Dot" 
+            className="task-dot cursor-pointer mt-4" 
+            style={{ width: '5%', height: '5%' }}
+          />
       <TextField
-          label="New task..."
+          label="Add url..."
           variant="standard"
           type="text"
-          value={newTask}
-          onChange={handleNewTaskInput}
-          onBlur={handleNewTaskSubmit}
+          value={newUrl}
+          onChange={handleNewUrlInput}
+          onBlur={handleNewUrlSubmit}
           onKeyDown={handleKeyDown}
           sx={{
             input: { color: 'white', fontFamily: '"Gloria Hallelujah", sans-serif'},  
@@ -62,4 +63,4 @@ const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, ne
   );
 };
 
-export default PrettyList;
+export default PrettyUrlList;

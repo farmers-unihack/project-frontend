@@ -18,6 +18,7 @@ import sprite09 from '../assets/spawn_transitions/sprite_09.png';
 import sprite10 from '../assets/spawn_transitions/sprite_10.png';
 import sprite11 from '../assets/spawn_transitions/sprite_11.png';
 import InsightsModal from "../InsightsModal";
+import BlocklistModal from "../BlocklistModal";
 
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
@@ -35,11 +36,14 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
   const openInsights = (): void => setIsInsightsOpen(true);
   const closeInsights = (): void => setIsInsightsOpen(false);
   const openModal = (): void => setIsModalOpen(true);
   const closeModal = (): void => setIsModalOpen(false);
+  const openBlocklist = (): void => setIsBlocklistOpen(true);
+  const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
   const numUsers = 4;
   const getBackgroundImage = () => {
@@ -98,6 +102,13 @@ const Dashboard: React.FC = () => {
             Tasks
           </DashboardButton>
           <DashboardButton
+            onClick={openBlocklist}
+            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
+            style={{ fontSize: "28px" }}
+          >
+            Blocklist
+          </DashboardButton>
+          <DashboardButton
             onClick={openInsights}
             className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
             style={{ fontSize: "28px" }}
@@ -115,6 +126,7 @@ const Dashboard: React.FC = () => {
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
+        <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
       </div>
     </div>
   );
