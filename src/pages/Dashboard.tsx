@@ -18,6 +18,7 @@ import CollectibleComponents from '../CollectibleComponents';
 import moon from '../assets/moon.png';
 import cloud from '../assets/cloud.png';
 import restClient from '../utils/rest.util';
+import InventoryModal from "../InventoryModal";
 
 
 const Dashboard: React.FC = () => {
@@ -29,6 +30,7 @@ const Dashboard: React.FC = () => {
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
 
   const openInsights = (): void => setIsInsightsOpen(true);
@@ -38,6 +40,8 @@ const Dashboard: React.FC = () => {
   const openBlocklist = (): void => setIsBlocklistOpen(true);
   const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
+  const openInventory = (): void => setIsInventoryOpen(true);
+  const closeInventory = (): void => setIsInventoryOpen(false);
 
   const pollGroupStatus = async () => {
     try {
@@ -141,7 +145,7 @@ const Dashboard: React.FC = () => {
                   Blocklist
                 </span>
               </div>
-              <div className="relative inline-block hover:scale-110">
+              <div className="relative inline-block hover:scale-110" onClick={openInventory}>
                 <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
                 <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
                   Inventory
@@ -163,6 +167,7 @@ const Dashboard: React.FC = () => {
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
         <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
+        <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} />
       </div>
       <style>
         {`
