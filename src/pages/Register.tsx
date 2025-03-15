@@ -10,11 +10,17 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
   const register = async (e: any) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setErrorMessage('Passwords do not match');
+      return;
+    }
 
     const request = await restClient.post('/auth/register', {
       data: {
@@ -25,9 +31,12 @@ function Register() {
     });
 
     if (!request.success) {
-      // setError(request.data)  // TODO: Handle error
+      setErrorMessage("Username already exists");
       return
+    } else {
+      setErrorMessage('');
     }
+
     navigate("/login");
   }
 
@@ -78,6 +87,8 @@ function Register() {
             type="password"
             onChange={e => setConfirmPassword(e.target.value)}
           />
+
+          <span className='text-red-500 pl-3'>{errorMessage}</span>
 
           <PrettyButton
             type="submit"

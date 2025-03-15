@@ -10,6 +10,7 @@ import restClient from "../utils/rest.util";
 function Login({ }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -23,15 +24,24 @@ function Login({ }) {
       headers: { "Content-Type": "application/json" }
     });
 
+    console.log(request);
+
     if (!request.success) {
-      // setError(request.data)  // TODO: Implement error handling
+      console.log(request.data);
+      setErrorMessage("Invalid username or password");
       return
+    } else {
+      setErrorMessage('');
     }
 
     localStorage.setItem("accessToken", request.data.token);
     localStorage.setItem("username", JSON.stringify(request.data.username));
-
-    navigate("/dashboard");
+    console.log(request.data);
+    if (request.data.user_in_group) {
+      navigate("/dashboard");
+    } else {
+      navigate("/prompt");
+    }
   }
 
   return (
@@ -71,6 +81,8 @@ function Login({ }) {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+
+          <span className='text-red-500 pl-3'>{errorMessage}</span>
 
           <PrettyButton
             type="submit"
