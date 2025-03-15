@@ -8,11 +8,8 @@ import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
 import BlocklistModal from "../BlocklistModal";
 import soundBarImage from '../assets/sound_bar.png';
-import { collectibles } from "../collectibles";
-import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
-import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
 import bush from '../assets/bush.png'
@@ -62,18 +59,11 @@ const Dashboard: React.FC = () => {
       >
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
-      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
-         <img 
-           src={soundBarImage} 
-           alt="Sound Bar" 
-           className="w-[300px] h-[100px] mt-170" 
-         />
-       </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
       </div>
-      
+  
       <div
         className="absolute inset-0"
         style={{
@@ -84,7 +74,6 @@ const Dashboard: React.FC = () => {
           zIndex: 1,
         }}
       />
-
       
       <CollectibleComponents/>
       <div className="absolute inset-0 z-30">
@@ -103,6 +92,17 @@ const Dashboard: React.FC = () => {
                   <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
                     Insights
                   </span>
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <img 
+                    src={soundBarImage} 
+                    alt="Sound Bar" 
+                    className="w-[300px] h-[100px] mt-10" 
+                  />
+                  <MusicPlayer />
                 </div>
               </div>
 
@@ -131,9 +131,6 @@ const Dashboard: React.FC = () => {
             onClick={toggleRain}
             style={{ width: '80px', cursor: 'pointer' }}
           />
-        </div>
-        <div className="absolute inset-0 pointer-events-none">
-          <MusicPlayer className="pointer-events-auto" />
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
