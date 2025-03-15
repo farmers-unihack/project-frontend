@@ -51,7 +51,7 @@ const PrettyUrlList: React.FC<PrettyListProps> = ({ urls, toggleUrlDeletion, new
             label: { color: 'white', fontFamily: '"Gloria Hallelujah", sans-serif'}, 
             '& .MuiInput-underline:before': { borderBottomColor: 'white' }, 
             '& .MuiInput-underline:hover:before': { borderBottomColor: 'white' }, 
-            '& .MuiInput-underline:hover': { borderBottomColor: 'white' }, 
+            '& .MuiInput-underline:hover:after': { borderBottomColor: 'white' }, 
             '& .MuiInput-underline:after': { borderBottomColor: 'white' },
             '& .MuiInputLabel-root.Mui-focused': { color: 'white' },
             '& .MuiInputLabel-root:hover': { color: 'white' },
