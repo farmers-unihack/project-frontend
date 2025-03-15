@@ -5,6 +5,7 @@ import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png'
+import playerImage from '../assets/player.png'
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();

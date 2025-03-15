@@ -5,6 +5,12 @@ import createRoom from '../assets/create_room.png';
 
 function Prompt() {
   const navigate = useNavigate();
+  const handleJoinRoom = (): void => {
+    navigate('/join');
+  };
+  const handleCreateRoom = (): void => {
+    navigate('/create');
+  };
 
   return (
     <div 
@@ -22,11 +28,13 @@ function Prompt() {
         <img 
           src={joinRoom} 
           alt="join room" 
+          onClick={handleJoinRoom}
           className="w-auto h-100 transition-transform transform hover:scale-110 hover:shadow-[0_0_20px_5px_rgba(255,255,255,0.6)]"
         />
         <img 
           src={createRoom} 
           alt="create room" 
+          onClick={handleCreateRoom}
           className="w-auto h-100 transition-transform transform hover:scale-110 hover:shadow-[0_0_20px_5px_rgba(255,255,255,0.6)]"
         />
       </div>

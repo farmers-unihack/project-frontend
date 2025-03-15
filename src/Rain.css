@@ -2,7 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     overflow: hidden;
-    background: linear-gradient(to bottom, #1c0533, #666681);
+    background: #412b5a;
   }
   
   .rain-effect-container {
