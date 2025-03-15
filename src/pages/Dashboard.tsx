@@ -19,6 +19,8 @@ import cloud from '../assets/cloud.png';
 import restClient from '../utils/rest.util';
 import Loading from './Loading'
 import InventoryModal from "../InventoryModal";
+import HomeButton from '../HomeButton';
+import LogoutButton from '../LogoutButton';
 
 const Dashboard: React.FC = () => {
   const POLLING_INTERVAL = 10e3; // 1 minute
@@ -170,6 +172,8 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
+          <HomeButton/>
+          <LogoutButton/>
 
           <div className="absolute top-4 right-4">
             <img
