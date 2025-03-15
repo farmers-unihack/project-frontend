@@ -36,7 +36,7 @@ const Dashboard: React.FC = () => {
   const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
 
-  const numUsers = 4;
+  const numUsers: number = 4;
   //TODO: numUsers should be retrieved from api call
   const getBackgroundImage = () => {
     switch (numUsers) {
