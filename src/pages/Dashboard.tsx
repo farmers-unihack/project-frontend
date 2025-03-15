@@ -8,12 +8,15 @@ import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
 import BlocklistModal from "../BlocklistModal";
+import soundBarImage from '../assets/sound_bar.jpeg';
 
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
+import MusicPlayer from '../MusicPlayer';
+
 
 const Dashboard: React.FC = () => {
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
@@ -50,24 +53,32 @@ const Dashboard: React.FC = () => {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
-      
+      <div className="absolute inset-0 z-1000">
+        <MusicPlayer className="pointer-events-auto" />
+      </div>
+      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-20 ">
+        <img 
+          src={soundBarImage} 
+          alt="Sound Bar" 
+          className="w-[450px] h-[350px] mt-192" 
+        />
+      </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
-        <Cloud animationClass="animate-cloud1" top="10%" left="-200px" />
-        <Cloud animationClass="animate-cloud2" top="20%" left="-300px" />
+        <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
+        <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
       </div>
       
       <div
         className="absolute inset-0"
         style={{
           backgroundImage: `url(${getBackgroundImage()})`,
-          backgroundSize: '100vw 100vh',
+          backgroundSize: '90vw 100vh',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'calc(50% + 8vw) center',
+          backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
           zIndex: 1,
         }}
       />
 
-      {/* UI Elements */}
       <div className="absolute inset-0 z-30">
         <div className="absolute top-4 left-4 flex flex-col space-y-20">
           <DashboardButton
