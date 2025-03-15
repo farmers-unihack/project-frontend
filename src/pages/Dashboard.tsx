@@ -113,7 +113,7 @@ const Dashboard: React.FC = () => {
         />
       ))}
 
-      <CollectibleComponents />
+      <CollectibleComponents collectibleList={collectibles}/>
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>

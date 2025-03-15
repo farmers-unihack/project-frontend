@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { collectibles as allCollectibles, Collectible } from './collectibles';
 
-const CollectibleComponents = () => {
+interface CollectibleProps {
+  collectibleList: string[];
+}
+
+const CollectibleComponents: React.FC<CollectibleProps> = ({ collectibleList }) => {
   // TODO: harcoded, i assume that we can get a list similar to this from api call??
-  const backendCollectibles = ["Item 1", "Item 2", "Item 3"];
   const [collectibles, setCollectibles] = useState<Collectible[]>([]);
 
   useEffect(() => {
     const filtered = allCollectibles.filter((item) =>
-      backendCollectibles.includes(item.name)
+      collectibleList.includes(item.name)
     );
     setCollectibles(filtered);
   }, []);
