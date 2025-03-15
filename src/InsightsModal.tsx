@@ -29,7 +29,6 @@ const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose, totalFoc
           onClick={onClose}
           className="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 rounded-full p-2"
         >
-          ✕
         </button>
         <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold">Total Productive Time</h3>
