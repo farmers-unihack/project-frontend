@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
   const POLLING_INTERVAL = 10e3; // 1 minute
   const [activeUsers, setActiveUsers] = useState<{ username: string }[]>([]);
   const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
-  const [collectibles, setCollectibles] = useState([]);
+  const [collectibles, setCollectibles] = useState<{ id: string }[]>([]);
 
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -216,6 +216,10 @@ const Dashboard: React.FC = () => {
           <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
           <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={["Item 1", "Item 3", "Item 5"]}/>
         </div>
+        <Modal isOpen={isModalOpen} onClose={closeModal} />
+        <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
+        <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
+        <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)}/>
       </div>
     </div>
   );

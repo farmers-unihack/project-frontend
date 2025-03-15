@@ -23,7 +23,7 @@ const InventoryModal: React.FC<InventoryModalProps> = ({ isOpen, onClose, unlock
               <div
                 key={index}
                 className={`w-[100px] h-[100px] flex justify-center items-center rounded-lg ${
-                  unlockedCollectibles.includes(item.name) ? 'opacity-100' : 'opacity-30'
+                  unlockedCollectibles.includes(item.id) ? 'opacity-100' : 'opacity-30'
                 }`}
               >
                 <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
