@@ -95,7 +95,6 @@ const Dashboard: React.FC = () => {
           zIndex: 1,
         }}
       />
-
       {activeUsers.map((_, index) => (
         <div
           key={index}
