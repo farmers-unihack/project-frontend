@@ -128,7 +128,7 @@ const Dashboard: React.FC = () => {
           />
         ))}
 
-      <CollectibleComponents collectibleList={collectibles}/>
+      <CollectibleComponents collectibleList={collectibles.map(collectible => collectible.id)}/>
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>

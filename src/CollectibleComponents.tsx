@@ -9,7 +9,7 @@ const CollectibleComponents: React.FC<CollectibleComponentsProps> = ({ collectib
   const [collectibles, setCollectibles] = useState<Collectible[]>([]);
 
   useEffect(() => {
-    const filtered = allCollectibles.filter((item) => collectibleList.includes(item.name));
+    const filtered = allCollectibles.filter((item) => collectibleList.includes(item.id));
     setCollectibles(filtered);
   }, [collectibleList]);
 
