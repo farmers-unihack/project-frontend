@@ -52,7 +52,11 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
-      <div className="absolute inset-0 z-20 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none"
+        style={{
+          background: showRain ? "#71687a" : "#a7cbef", 
+        }}
+      >
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
       <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
@@ -80,7 +84,6 @@ const Dashboard: React.FC = () => {
 
       
       <CollectibleComponents/>
-
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
