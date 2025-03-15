@@ -7,14 +7,16 @@ import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
 import BlocklistModal from "../BlocklistModal";
-import soundBarImage from '../assets/sound_bar.jpeg';
-
+import soundBarImage from '../assets/sound_bar.png';
+import { collectibles } from "../collectibles";
+import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
 import bush from '../assets/bush.png'
+import CollectibleComponents from '../CollectibleComponents';
 
 
 const Dashboard: React.FC = () => {
@@ -32,6 +34,7 @@ const Dashboard: React.FC = () => {
   const toggleRain = (): void => setShowRain(prev => !prev);
 
   const numUsers = 4;
+  //TODO: numUsers should be retrieved from api call
   const getBackgroundImage = () => {
     switch (numUsers) {
       case 1:
@@ -53,12 +56,12 @@ const Dashboard: React.FC = () => {
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
       <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
-        <img 
-          src={soundBarImage} 
-          alt="Sound Bar" 
-          className="w-[450px] h-[350px] mt-192" 
-        />
-      </div>
+         <img 
+           src={soundBarImage} 
+           alt="Sound Bar" 
+           className="w-[300px] h-[100px] mt-170" 
+         />
+       </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
@@ -68,7 +71,7 @@ const Dashboard: React.FC = () => {
         className="absolute inset-0"
         style={{
           backgroundImage: `url(${getBackgroundImage()})`,
-          backgroundSize: '90vw 100vh',
+          backgroundSize: '90vw 90vh',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
           zIndex: 1,
@@ -76,10 +79,12 @@ const Dashboard: React.FC = () => {
       />
 
       
+      <CollectibleComponents/>
+
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between m-5">
               <div className="flex flex-row space-x-20">
                 <div className="relative inline-block hover:scale-110" onClick={openModal}>
                   <img src={bush} alt="Modal Frame" className="h-35" />
