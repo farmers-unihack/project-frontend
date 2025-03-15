@@ -7,6 +7,7 @@ import restClient from "../utils/rest.util";
 const Join: React.FC = () => {
 
   const [invite_code, setInviteCode] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
@@ -20,8 +21,10 @@ const Join: React.FC = () => {
     });
 
     if (!request.success) {
-      // setError(request.data)  // TODO: Implement error handling
+      setError("Invalid invite code");
       return
+    } else {
+      setError('');
     }
 
     navigate("/dashboard");
@@ -50,6 +53,7 @@ const Join: React.FC = () => {
             onChange={e => setInviteCode(e.target.value)}
           />
         </div>
+        <span className="text-red-500 font-medium">{error}</span>
         <PrettyButton onClick={joinCafe} style={{ width: "220px", fontSize: "24px", height: "70px", backgroundColor: "#ffdcd3", color: "#492e16", padding: "12px 24px" }}>
           Let's go!
         </PrettyButton>
