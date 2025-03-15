@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Modal.css';
 import signFrameImage from './assets/cafe_sign_frame.png';
 import PrettyList from './PrettyList';
+import restClient from './utils/rest.util';
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ interface ModalProps {
 
 interface Task {
   id: string;
-  text: string;
+  name: string;
   completed: boolean;
 }
 
@@ -20,34 +21,28 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const toggleTaskCompletion = (taskId: string) => {
-    setTasks(prevTasks => {
-      return prevTasks.map((task) => {
-        if (task.id === taskId) {
-          if (!task.completed) {
-            setTimeout(() => {
-              setTasks(currentTasks => currentTasks.filter((task) => task.id !== taskId));
-            }, 2000);
-            return { ...task, completed: true };
-          }
-        }
-        return task;
-      });
-    });
+  const toggleTaskCompletion = async (taskId: string) => {
+    await restClient.put(`/task/update`, { data: { task_id: taskId, completed: true }, headers: { "Content-Type": "application/json" } });
+    const newTaskList = await restClient.get('/task/');
+    setTasks(newTaskList.data);
   };
 
   const handleNewTaskInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTask(e.target.value);
   };
 
-  const handleNewTaskSubmit = () => {
+  const handleNewTaskSubmit = async () => {
     if (newTask.trim() !== '') {
-      console.log("hey");
-      setTasks([...tasks, { id: `${Date.now()}`, text: newTask, completed: false }]);
+      const response = await restClient.post('/task/create', { data: { task_name: newTask }, headers: { "Content-Type": "application/json" } });
+      if (!response.success) {
+        console.error('Failed to create task', response.data.msg);
+        return;
+      }
+      const newTaskList = await restClient.get('/task/');
+      setTasks(newTaskList.data);
       setNewTask('');
       setError(null);
     }
-    console.log(tasks);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -55,26 +50,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       handleNewTaskSubmit();
     }
   };
-  
+
   if (!isOpen) return null;
 
   return (
     <div className="section full-height">
       <div className="modal" onClick={onClose}>
         <div className="relative h-full" onClick={(e) => e.stopPropagation()}>
-          <img 
-            src={signFrameImage} 
-            alt="Modal Frame" 
+          <img
+            src={signFrameImage}
+            alt="Modal Frame"
             className="h-full"
           />
-          
+
           <div className="absolute top-[38%] left-[24%] w-[55%] h-[40%] overflow-auto">
-            <PrettyList 
-              tasks={tasks} 
-              toggleTaskCompletion={toggleTaskCompletion} 
-              newTask={newTask} 
+            <PrettyList
+              tasks={tasks}
+              toggleTaskCompletion={toggleTaskCompletion}
+              newTask={newTask}
               handleNewTaskInput={handleNewTaskInput}
-              handleNewTaskSubmit={handleNewTaskSubmit} 
+              handleNewTaskSubmit={handleNewTaskSubmit}
               handleKeyDown={handleKeyDown}
             />
           </div>
