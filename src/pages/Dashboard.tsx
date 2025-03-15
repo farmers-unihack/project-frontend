@@ -173,7 +173,7 @@ const Dashboard: React.FC = () => {
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
         <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
-        <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} />
+        <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={["Item 1", "Item 3", "Item 5"]}/>
       </div>
       <style>
         {`
