@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
   const POLLING_INTERVAL = 10e3; // 1 minute
   const [activeUsers, setActiveUsers] = useState<{ username: string }[]>([]);
   const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
-  const [collectibles, setCollectibles] = useState<{ id: string }[]>([]);
+  const [collectibles, setCollectibles] = useState<{id: string}[]>([]);
 
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -128,7 +128,7 @@ const Dashboard: React.FC = () => {
           />
         ))}
 
-      <CollectibleComponents collectibleList={collectibles}/>
+      <CollectibleComponents collectibleList={collectibles.map(collectible => collectible.id)}/>
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
