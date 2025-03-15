@@ -1,22 +1,29 @@
-import React from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import React, { useState } from "react";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 interface InsightsModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-/* TODO: api call to retrieve this*/
 const productivityData = [
-  { name: "Focus Time", value: 5, color: "#6D72C3" },
-  { name: "Breaks", value: 1, color: "#505168" },
+  { name: "Focus Time", value: 5, color: "#6D72C3", message: "You spent 5 hours focusing." },
+  { name: "Breaks", value: 1, color: "#505168", message: "You took 1 hour of breaks." },
 ];
 
+const totalTime = "Retrieve value - hardcoded";
+
 const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose }) => {
+  const [tooltipContent, setTooltipContent] = useState<string | null>(null);
+  const clickCount = useState(0);
+  const wordsTyped = useState(0);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
       <div className="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg relative">
         <h2 className="text-xl font-bold text-center">How Did You Go?</h2>
         <button 
@@ -25,26 +32,40 @@ const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose }) => {
         >
           ✕
         </button>
-
         <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold">Hours Worked This Week</h3>
-          <p className="text-2xl font-bold text-blue-600 text-center">REPLACE THIS WITH USER DATA</p>
+          <h3 className="text-lg font-semibold">Total Productive Time</h3>
+          <p className="text-2xl font-bold text-blue-600 text-center">{totalTime}</p>
         </div>
 
-        <div className="flex items-center justify-center my-4">
+        {/* Pie Chart Section */}
+        <div className="flex items-center justify-center my-4 relative">
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
-              <Pie data={productivityData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70}>
+              <Pie
+                data={productivityData}
+                dataKey="value"
+                cx="50%"
+                cy="50%"
+                outerRadius={70}
+                onMouseLeave={() => setTooltipContent(null)}
+              >
                 {productivityData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
               <Tooltip />
-              <Legend />
             </PieChart>
           </ResponsiveContainer>
+
+          {/* Tooltip with Words on Hover */}
+          {tooltipContent && (
+            <div className="absolute bottom-0 bg-gray-800 text-white p-2 rounded-lg text-sm">
+              {tooltipContent}
+            </div>
+          )}
         </div>
 
+        {/* Productivity Breakdown */}
         <div className="space-y-4">
           {productivityData.map((data) => (
             <div key={data.name} className="p-4 bg-gray-50 rounded-lg shadow-md">
@@ -62,6 +83,13 @@ const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose }) => {
           ))}
         </div>
 
+        {/* Mouse Click Counter */}
+        <div className="text-center mt-4 text-sm text-gray-500">
+          <p>Total Mouseclicks: {clickCount}</p>
+          <p>Total Keystrokes: {wordsTyped}</p>
+        </div>
+
+        {/* Close Button */}
         <div className="text-center mt-4">
           <button
             onClick={onClose}
