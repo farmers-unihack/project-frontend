@@ -21,7 +21,7 @@ import InventoryModal from "../InventoryModal";
 
 
 const Dashboard: React.FC = () => {
-  const POLLING_INTERVAL = 60e3; // 1 minute
+  const POLLING_INTERVAL = 10e3; // 1 minute
   const [activeUsers, setActiveUsers] = useState<{ username: string }[]>([]);
   const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
   const [collectibles, setCollectibles] = useState([]);
