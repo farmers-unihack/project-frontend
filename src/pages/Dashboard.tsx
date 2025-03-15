@@ -43,7 +43,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
-      {showRain ? <RainEffect /> : <Starfall />}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        {showRain ? <RainEffect /> : <Starfall />}
+      </div>
+      
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="10%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="20%" left="-300px" />
