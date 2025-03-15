@@ -8,29 +8,42 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const MAX_TASKS = 5;
-
 interface Task {
   text: string;
   completed: boolean;
+  timeoutId?: NodeJS.Timeout;
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const [tasks, setTasks] = useState<Task[]>([
-    { text: 'Task 1 test', completed: false },
-    { text: 'Task 2', completed: false },
-    { text: 'Task 3 length var', completed: false },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const addTask = () => {
-    if (tasks.length >= MAX_TASKS) {
-      setError(`Task limit reached! (Max ${MAX_TASKS} tasks)`);
-      return;
-    }
+  const toggleTaskCompletion = (index: number) => {
+    setTasks(prevTasks => {
+      return prevTasks.map((task, i) => {
+        if (i === index) {
+          if (!task.completed) {
+            const timeoutId = setTimeout(() => {
+              setTasks(currentTasks => currentTasks.filter((_, j) => j !== index));
+            }, 5000);
+            return { ...task, completed: true, timeoutId };
+          } else {
+            if (task.timeoutId) clearTimeout(task.timeoutId);
+            return { ...task, completed: false, timeoutId: undefined };
+          }
+        }
+        return task;
+      });
+    });
+  };
 
+  const handleNewTaskInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTask(e.target.value);
+  };
+
+  const handleNewTaskSubmit = () => {
     if (newTask.trim() !== '') {
       setTasks([...tasks, { text: newTask, completed: false }]);
       setNewTask('');
@@ -38,8 +51,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const toggleTaskCompletion = (index: number) => {
-    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleNewTaskSubmit();
+    }
   };
   
   if (!isOpen) return null;
@@ -47,31 +62,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="section full-height">
       <div className="modal" onClick={onClose}>
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="relative h-full" onClick={(e) => e.stopPropagation()}>
           <img 
             src={signFrameImage} 
             alt="Modal Frame" 
-            className="modal-image"
+            className="h-full"
           />
           
-          <div className="overlay-list">
-            <PrettyList items={tasks} toggleTaskCompletion={toggleTaskCompletion} />
-          </div>
-
-          <div className="task-input-container">
-            <input
-              type="text"
-              placeholder="Enter a task..."
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              className="task-input"
-              disabled={tasks.length >= MAX_TASKS}
+          <div className="absolute top-[38%] left-[24%] w-[55%] h-[40%] overflow-auto">
+            <PrettyList 
+              tasks={tasks} 
+              toggleTaskCompletion={toggleTaskCompletion} 
+              newTask={newTask} 
+              handleNewTaskInput={handleNewTaskInput}
+              handleNewTaskSubmit={handleNewTaskSubmit} 
+              handleKeyDown={handleKeyDown}
             />
-          </div>
-          <div className="task-button-container">
-            <button onClick={addTask} className="task-button" disabled={tasks.length >= MAX_TASKS}>
-              Add Task
-            </button>
           </div>
 
           {error && <p className="task-error">{error}</p>}
