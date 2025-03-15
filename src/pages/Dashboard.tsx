@@ -5,42 +5,26 @@ import one_cat from '../assets/game_states/one-cat.png';
 import two_cat from '../assets/game_states/two-cat.png';
 import three_cat from '../assets/game_states/three-cat.png';
 import four_cat from '../assets/game_states/four-cat.png';
-import sprite00 from '../assets/spawn_transitions/sprite_00.png';
-import sprite01 from '../assets/spawn_transitions/sprite_01.png';
-import sprite02 from '../assets/spawn_transitions/sprite_02.png';
-import sprite03 from '../assets/spawn_transitions/sprite_03.png';
-import sprite04 from '../assets/spawn_transitions/sprite_04.png';
-import sprite05 from '../assets/spawn_transitions/sprite_05.png';
-import sprite06 from '../assets/spawn_transitions/sprite_06.png';
-import sprite07 from '../assets/spawn_transitions/sprite_07.png';
-import sprite08 from '../assets/spawn_transitions/sprite_08.png';
-import sprite09 from '../assets/spawn_transitions/sprite_09.png';
-import sprite10 from '../assets/spawn_transitions/sprite_10.png';
-import sprite11 from '../assets/spawn_transitions/sprite_11.png';
 import InsightsModal from "../InsightsModal";
+import Cloud from "../Cloud"; 
 
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
-import rainIcon from '../assets/toggle_rain.png'
-import playerImage from '../assets/player.png'
+import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 
-const transitionFrames = [
-  sprite00, sprite01, sprite02, sprite03, sprite04, sprite05,
-  sprite06, sprite07, sprite08, sprite09, sprite10, sprite11
-];
-
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
+
   const openInsights = (): void => setIsInsightsOpen(true);
   const closeInsights = (): void => setIsInsightsOpen(false);
   const openModal = (): void => setIsModalOpen(true);
   const closeModal = (): void => setIsModalOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
+
   const numUsers = 4;
   const getBackgroundImage = () => {
     switch (numUsers) {
@@ -57,38 +41,28 @@ const Dashboard: React.FC = () => {
     }
   };
 
-/* todo: add api call to check for the number of users present, poll every 10 seconds, when switch is detected, cloud effect?*/
-
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-screen h-screen overflow-hidden">
       {showRain ? <RainEffect /> : <Starfall />}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        <Cloud animationClass="animate-cloud1" top="10%" left="-200px" />
+        <Cloud animationClass="animate-cloud2" top="20%" left="-300px" />
+        <Cloud animationClass="animate-cloud3" top="40%" left="-250px" />
+      </div>
+      
       <div
         className="absolute inset-0"
         style={{
-          ...(showRain
-            ? {
-                backgroundImage: `url(${getBackgroundImage()})`,
-                backgroundSize: '80vw 88vh',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-              }
-            : {
-              }),
-          zIndex: 1,
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{ 
           backgroundImage: `url(${getBackgroundImage()})`,
-          backgroundSize: '80vw 88vh',
+          backgroundSize: '100vw 100vh',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
+          backgroundPosition: 'calc(50% + 8vw) center',
           zIndex: 1,
         }}
       />
 
-      <div className="absolute inset-0 z-10">
+      {/* UI Elements */}
+      <div className="absolute inset-0 z-30">
         <div className="absolute top-4 left-4 flex flex-col space-y-20">
           <DashboardButton
             onClick={openModal}
@@ -116,6 +90,32 @@ const Dashboard: React.FC = () => {
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
       </div>
+      <style>
+        {`
+          @keyframes cloudMove1 {
+            0% { transform: translateX(-200px); opacity: 0.8; }
+            100% { transform: translateX(120vw); opacity: 1; }
+          }
+          @keyframes cloudMove2 {
+            0% { transform: translateX(-250px); opacity: 0.9; }
+            100% { transform: translateX(120vw); opacity: 1; }
+          }
+          @keyframes cloudMove3 {
+            0% { transform: translateX(-300px); opacity: 0.7; }
+            100% { transform: translateX(120vw); opacity: 1; }
+          }
+
+          .animate-cloud1 {
+            animation: cloudMove1 20s linear infinite;
+          }
+          .animate-cloud2 {
+            animation: cloudMove2 30s linear infinite;
+          }
+          .animate-cloud3 {
+            animation: cloudMove3 25s linear infinite;
+          }
+        `}
+      </style>
     </div>
   );
 };
