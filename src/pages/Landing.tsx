@@ -21,7 +21,7 @@ function Landing() {
       <img 
           src={coffeeShopImage} 
           alt="Coffee Shop Logo" 
-          className="w-auto h-50" // You can adjust the size as needed
+          className="w-auto h-50"
         />
 
       <LandingButton onClick={register}>New here? Join us!</LandingButton>
