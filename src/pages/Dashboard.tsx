@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import backgroundImage from '../assets/game_states/background.png';
 import one_cat from '../assets/game_states/one-cat.png';
 import two_cat from '../assets/cat_layers/second_cat.png';
 import third_cat from '../assets/cat_layers/third_cat.png';
@@ -106,21 +105,10 @@ const Dashboard: React.FC = () => {
             backgroundSize: '90vw 90vh',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
-            zIndex: 1,
+            zIndex: 2,
           }}
         />
       ))}
-
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: '90vw 90vh',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
-          zIndex: 1,
-        }}
-      />
 
       <CollectibleComponents />
       <div className="absolute inset-0 z-30">
