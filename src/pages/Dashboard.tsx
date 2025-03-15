@@ -16,7 +16,10 @@ import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
 import bush from '../assets/bush.png'
+import darkBush from '../assets/darkbush.png'
 import CollectibleComponents from '../CollectibleComponents';
+import moon from '../assets/moon.png';
+import cloud from '../assets/cloud.png';
 
 
 const Dashboard: React.FC = () => {
@@ -90,14 +93,14 @@ const Dashboard: React.FC = () => {
             <div className="flex flex-row justify-between m-5">
               <div className="flex flex-row space-x-20">
                 <div className="relative inline-block hover:scale-110" onClick={openModal}>
-                  <img src={bush} alt="Modal Frame" className="h-35" />
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
                   <span  style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
                     Tasks
                   </span>
                 </div >
                 <div className="relative inline-block hover:scale-110"  onClick={openInsights}>
-                  <img src={bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
                     Insights
                   </span>
                 </div>
@@ -105,14 +108,14 @@ const Dashboard: React.FC = () => {
 
               <div className="flex flex-row space-x-20">
                 <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
-                  <img src={bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
                     Blocklist
                   </span>
                 </div>
                 <div className="relative inline-block hover:scale-110">
-                  <img src={bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[17%] text-l">
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
                     Inventory
                   </span>
                 </div>
@@ -122,10 +125,11 @@ const Dashboard: React.FC = () => {
         
         <div className="absolute top-4 right-4">
           <img
-            src={rainIcon}
+            className="hover:scale-110"
+            src={showRain ? cloud : moon}
             alt="Toggle Rain"
             onClick={toggleRain}
-            style={{ width: '80px', height: '80px', cursor: 'pointer' }}
+            style={{ width: '80px', cursor: 'pointer' }}
           />
         </div>
         <div className="absolute inset-0 pointer-events-none">
