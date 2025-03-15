@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import backgroundImage from '../assets/game_states/background.png';
 import one_cat from '../assets/game_states/one-cat.png';
 import two_cat from '../assets/game_states/two-cat.png';
@@ -10,12 +9,12 @@ import Cloud from "../Cloud";
 import BlocklistModal from "../BlocklistModal";
 import soundBarImage from '../assets/sound_bar.jpeg';
 
-import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
 import rainIcon from '../assets/toggle_rain.png';
 import Starfall from '../Starfall';
 import MusicPlayer from '../MusicPlayer';
+import bush from '../assets/bush.png'
 
 
 const Dashboard: React.FC = () => {
@@ -76,30 +75,43 @@ const Dashboard: React.FC = () => {
         }}
       />
 
+      
       <div className="absolute inset-0 z-30">
-        <div className="absolute top-4 left-4 flex flex-col space-y-20">
-          <DashboardButton
-            onClick={openModal}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Tasks
-          </DashboardButton>
-          <DashboardButton
-            onClick={openBlocklist}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Blocklist
-          </DashboardButton>
-          <DashboardButton
-            onClick={openInsights}
-            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
-            style={{ fontSize: "28px" }}
-          >
-            Insights
-          </DashboardButton>
+        <div className="min-h-screen flex flex-col">
+          <div className="flex-grow"></div>
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-row space-x-20">
+                <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                  <img src={bush} alt="Modal Frame" className="h-35" />
+                  <span  style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                    Tasks
+                  </span>
+                </div >
+                <div className="relative inline-block hover:scale-110"  onClick={openInsights}>
+                  <img src={bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                    Insights
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-row space-x-20">
+                <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
+                  <img src={bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                    Blocklist
+                  </span>
+                </div>
+                <div className="relative inline-block hover:scale-110">
+                  <img src={bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[17%] text-l">
+                    Inventory
+                  </span>
+                </div>
+              </div>
+            </div>
         </div>
+        
         <div className="absolute top-4 right-4">
           <img
             src={rainIcon}
