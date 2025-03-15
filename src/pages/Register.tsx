@@ -28,11 +28,7 @@ function Register() {
       // setError(request.data)  // TODO: Handle error
       return
     }
-
-    localStorage.setItem("accessToken", request.data.token);
-    localStorage.setItem("username", JSON.stringify(request.data.username));
-
-    navigate("/prompt");
+    navigate("/login");
   }
 
   return (
