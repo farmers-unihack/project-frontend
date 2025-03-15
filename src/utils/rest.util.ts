@@ -109,7 +109,7 @@ export class RestClient {
             }
             return {success: false, data: error.message};
         }
-        return request.data;
+        return {success: true, data: request.data};
     }
 
     /**
@@ -127,7 +127,7 @@ export class RestClient {
         config.headers = options.headers || Object.create(null);
         const token = localStorage.getItem("accessToken") || ""
         if (token)
-            config.headers!['Authorization'] = token;
+            config.headers!['x-access-token'] = token;
 
         if (options.method == RequestMethod.Post)
             config.data = options.data;
@@ -140,7 +140,7 @@ export class RestClient {
 }
 
 const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:5000",
+    baseURL: "http://127.0.0.1:5000/api",
 });
 
 const restClient = new RestClient(axiosInstance);

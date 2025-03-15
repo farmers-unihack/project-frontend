@@ -19,7 +19,8 @@ function Login({ }) {
       data: {
         username: username,
         password: password
-      }
+      },
+      headers: { "Content-Type": "application/json" }
     });
 
     if (!request.success) {
