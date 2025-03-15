@@ -3,10 +3,11 @@
     padding: 10px 20px;
     margin: 0;
     border-radius: 8px;
-    color: rgb(250, 228, 239);         
+    color: white;         
     font-weight: bold;     
     font-size: 28px;    
     text-align: center;  
+    font-family: "Gloria Hallelujah", cursive;
   }
   
   .pretty-list-item {
@@ -20,8 +21,5 @@
 }
 
 .task-checkbox {
-  width: 24px;
-  height: 24px;
-  accent-color: red;
- /*TODO: the checked box doesn't work.. will fix later??*/
+  accent-color: #916239;
 }

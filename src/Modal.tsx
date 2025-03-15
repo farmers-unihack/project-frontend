@@ -9,9 +9,9 @@ interface ModalProps {
 }
 
 interface Task {
+  id: string;
   text: string;
   completed: boolean;
-  timeoutId?: NodeJS.Timeout;
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
@@ -20,18 +20,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const toggleTaskCompletion = (index: number) => {
+  const toggleTaskCompletion = (taskId: string) => {
     setTasks(prevTasks => {
-      return prevTasks.map((task, i) => {
-        if (i === index) {
+      return prevTasks.map((task) => {
+        if (task.id === taskId) {
           if (!task.completed) {
-            const timeoutId = setTimeout(() => {
-              setTasks(currentTasks => currentTasks.filter((_, j) => j !== index));
-            }, 5000);
-            return { ...task, completed: true, timeoutId };
-          } else {
-            if (task.timeoutId) clearTimeout(task.timeoutId);
-            return { ...task, completed: false, timeoutId: undefined };
+            setTimeout(() => {
+              setTasks(currentTasks => currentTasks.filter((task) => task.id !== taskId));
+            }, 2000);
+            return { ...task, completed: true };
           }
         }
         return task;
@@ -45,10 +42,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handleNewTaskSubmit = () => {
     if (newTask.trim() !== '') {
-      setTasks([...tasks, { text: newTask, completed: false }]);
+      console.log("hey");
+      setTasks([...tasks, { id: `${Date.now()}`, text: newTask, completed: false }]);
       setNewTask('');
       setError(null);
     }
+    console.log(tasks);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

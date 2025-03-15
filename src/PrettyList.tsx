@@ -3,8 +3,12 @@ import './PrettyList.css';
 import TextField from '@mui/material/TextField';
 
 interface PrettyListProps {
-  tasks: { text: string; completed: boolean }[];
-  toggleTaskCompletion: (index: number) => void;
+  tasks: { 
+    id: string;
+    text: string;
+    completed: boolean;
+  }[];
+  toggleTaskCompletion: (taskId: string) => void;
   newTask: string;
   handleNewTaskInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleNewTaskSubmit: () => void;
@@ -19,10 +23,10 @@ const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, ne
         <input
           type="checkbox"
           checked={task.completed}
-          onChange={() => toggleTaskCompletion(index)}
-          className="cursor-pointer"
+          onChange={() => toggleTaskCompletion(task.id)}
+          className="cursor-pointer task-checkbox mt-2"
         />
-        <span className={task.completed ? 'line-through text-gray-400' : ''}>
+        <span onClick={() => toggleTaskCompletion(task.id)} className={`hover:line-through hover:text-gray-200 cursor-pointer ${task.completed ? 'line-through text-gray-200' : ''}`}>
           {task.text}
         </span>
       </li>
@@ -31,7 +35,7 @@ const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, ne
         <input
           type="checkbox"
           checked={false}
-          className="cursor-pointer"
+          className="cursor-pointer mt-4"
         />
       <TextField
           label="New task..."
@@ -42,14 +46,13 @@ const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, ne
           onBlur={handleNewTaskSubmit}
           onKeyDown={handleKeyDown}
           sx={{
-            input: { color: 'white' },  
-            label: { color: 'white' }, 
+            input: { color: 'white', fontFamily: '"Gloria Hallelujah", sans-serif'},  
+            label: { color: 'white', fontFamily: '"Gloria Hallelujah", sans-serif'}, 
             '& .MuiInput-underline:before': { borderBottomColor: 'white' }, 
             '& .MuiInput-underline:hover:before': { borderBottomColor: 'white' }, 
             '& .MuiInput-underline:after': { borderBottomColor: 'white' },
             '& .MuiInputLabel-root.Mui-focused': { color: 'white' },
             '& .MuiInputLabel-root:hover': { color: 'white' },
-            marginTop: '-15px' 
           }}
       />
     </li>
