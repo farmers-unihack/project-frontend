@@ -18,10 +18,10 @@ import moon from '../assets/moon.png';
 import cloud from '../assets/cloud.png';
 import restClient from '../utils/rest.util';
 import Loading from './Loading'
-
+import InventoryModal from "../InventoryModal";
 
 const Dashboard: React.FC = () => {
-  const POLLING_INTERVAL = 60e3; // 1 minute
+  const POLLING_INTERVAL = 10e3; // 1 minute
   const [activeUsers, setActiveUsers] = useState<{ username: string }[]>([]);
   const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
   const [collectibles, setCollectibles] = useState([]);
@@ -29,6 +29,7 @@ const Dashboard: React.FC = () => {
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
   const [loading, setLoading] = useState(true);
 
@@ -48,6 +49,8 @@ const Dashboard: React.FC = () => {
   const openBlocklist = (): void => setIsBlocklistOpen(true);
   const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
+  const openInventory = (): void => setIsInventoryOpen(true);
+  const closeInventory = (): void => setIsInventoryOpen(false);
 
   const pollGroupStatus = async () => {
     try {
@@ -153,19 +156,18 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex flex-row space-x-20">
-                <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
-                    Blocklist
-                  </span>
-                </div>
-                <div className="relative inline-block hover:scale-110">
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
-                    Inventory
-                  </span>
-                </div>
+            <div className="flex flex-row space-x-20">
+              <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                  Blocklist
+                </span>
+              </div>
+              <div className="relative inline-block hover:scale-110" onClick={openInventory}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                  Inventory
+                </span>
               </div>
             </div>
           </div>
@@ -183,32 +185,37 @@ const Dashboard: React.FC = () => {
           <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
           <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
         </div>
-        <style>
-          {`
-            @keyframes cloudMove1 {
-              0% { transform: translateX(-200px); opacity: 0.8; }
-              100% { transform: translateX(120vw); opacity: 1; }
-            }
-            @keyframes cloudMove2 {
-              0% { transform: translateX(-250px); opacity: 0.9; }
-              100% { transform: translateX(120vw); opacity: 1; }
-            }
-            @keyframes cloudMove3 {
-              0% { transform: translateX(-300px); opacity: 0.7; }
-              100% { transform: translateX(120vw); opacity: 1; }
-            }
+          <style>
+            {`
+              @keyframes cloudMove1 {
+                0% { transform: translateX(-200px); opacity: 0.8; }
+                100% { transform: translateX(120vw); opacity: 1; }
+              }
+              @keyframes cloudMove2 {
+                0% { transform: translateX(-250px); opacity: 0.9; }
+                100% { transform: translateX(120vw); opacity: 1; }
+              }
+              @keyframes cloudMove3 {
+                0% { transform: translateX(-300px); opacity: 0.7; }
+                100% { transform: translateX(120vw); opacity: 1; }
+              }
 
-            .animate-cloud1 {
-              animation: cloudMove1 20s linear infinite;
-            }
-            .animate-cloud2 {
-              animation: cloudMove2 30s linear infinite;
-            }
-            .animate-cloud3 {
-              animation: cloudMove3 25s linear infinite;
-            }
-          `}
-        </style>
+              .animate-cloud1 {
+                animation: cloudMove1 20s linear infinite;
+              }
+              .animate-cloud2 {
+                animation: cloudMove2 30s linear infinite;
+              }
+              .animate-cloud3 {
+                animation: cloudMove3 25s linear infinite;
+              }
+            `}
+          </style>
+          <Modal isOpen={isModalOpen} onClose={closeModal} />
+          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
+          <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
+          <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={["Item 1", "Item 3", "Item 5"]}/>
+        </div>
       </div>
     </div>
   );
