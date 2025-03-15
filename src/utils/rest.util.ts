@@ -139,8 +139,10 @@ export class RestClient {
 
 }
 
+const BASE_URL = import.meta.env.PROD ? "https://api.dejabrew.live/api" : "http://127.0.0.1:5000/api"
+
 const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:5000/api",
+    baseURL: BASE_URL,
 });
 
 const restClient = new RestClient(axiosInstance);
