@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
             backgroundSize: '90vw 90vh',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'calc(50% + 8vw) calc(50% - 10vh)',
-            zIndex: 2,
+            zIndex: 1,
           }}
         />
       ))}
