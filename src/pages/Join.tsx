@@ -1,8 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import PrettyButton from '../PrettyButton';
 import Background from '../assets/enter_room_code.png';
+import restClient from "../utils/rest.util";
 
 const Join: React.FC = () => {
+
+  const [groupId, setGroupId] = useState('');
+
+  const navigate = useNavigate();
+
+  async function joinCafe(e: any) {
+    e.preventDefault();
+    const request = await restClient.post('/group/join', {
+      data: {
+        group_id: groupId
+      },
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (!request.success) {
+      // setError(request.data)  // TODO: Implement error handling
+      return
+    }
+
+    navigate("/dashboard");
+  }
+
   return (
     <div
       className="flex flex-col items-center min-h-screen relative bg-white"
@@ -23,9 +47,10 @@ const Join: React.FC = () => {
             type="text"
             placeholder="Enter Cafe Room Code"
             className="w-full p-3 border rounded-lg text-lg"
+            onChange={e => setGroupId(e.target.value)}
           />
         </div>
-        <PrettyButton style={{ width: "220px", fontSize: "24px",  height: "70px", backgroundColor: "#ffdcd3", color: "#492e16", padding: "12px 24px" }}>
+        <PrettyButton onClick={joinCafe} style={{ width: "220px", fontSize: "24px",  height: "70px", backgroundColor: "#ffdcd3", color: "#492e16", padding: "12px 24px" }}>
           Let's go!
         </PrettyButton>
       </div>
