@@ -14,7 +14,7 @@ const CollectibleComponents = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-200 pointer-events-none">
+    <div className="absolute inset-0 z-29 pointer-events-none">
       {collectibles.map((collectible, index) => (
         <img
           key={index}

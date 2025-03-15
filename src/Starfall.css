@@ -1,3 +1,10 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #8e75a8;
+  }
+
 .starfall {
     position: absolute;
     height: 100%;
@@ -8,7 +15,6 @@
     transform-style: preserve-3d;
     -webkit-perspective: 1000px;
     perspective: 1000px;
-    z-index: 0;
 }
 
 .starfall .falling-star {
