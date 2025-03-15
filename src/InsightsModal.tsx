@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 interface InsightsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  totalFocusTime: number;
 }
 
 const productivityData = [
@@ -11,9 +12,7 @@ const productivityData = [
   { name: "Breaks", value: 1, color: "#505168", message: "You took 1 hour of breaks." },
 ];
 
-const totalTime = "Retrieve value - hardcoded";
-
-const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose }) => {
+const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose, totalFocusTime }) => {
   const [tooltipContent, setTooltipContent] = useState<string | null>(null);
   const clickCount = useState(0);
   const wordsTyped = useState(0);
@@ -30,11 +29,10 @@ const InsightsModal: React.FC<InsightsModalProps> = ({ isOpen, onClose }) => {
           onClick={onClose}
           className="absolute top-3 right-3 bg-gray-200 hover:bg-gray-300 rounded-full p-2"
         >
-          ✕
         </button>
         <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold">Total Productive Time</h3>
-          <p className="text-2xl font-bold text-blue-600 text-center">{totalTime}</p>
+          <p className="text-2xl font-bold text-blue-600 text-center">{totalFocusTime}</p>
         </div>
 
         {/* Pie Chart Section */}
