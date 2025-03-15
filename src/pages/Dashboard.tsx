@@ -125,24 +125,23 @@ const Dashboard: React.FC = () => {
           />
         ))}
 
-        <CollectibleComponents />
-        <div className="absolute inset-0 z-30">
-          <div className="min-h-screen flex flex-col">
-            <div className="flex-grow"></div>
-            <div className="flex flex-row justify-between m-5">
-              <div className="flex flex-row space-x-20">
-                <div className="relative inline-block hover:scale-110" onClick={openModal}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
-                    Tasks
-                  </span>
-                </div >
-                <div className="relative inline-block hover:scale-110" onClick={openInsights}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
-                    Insights
-                  </span>
-                </div>
+      <CollectibleComponents collectibleList={collectibles}/>
+      <div className="absolute inset-0 z-30">
+        <div className="min-h-screen flex flex-col">
+          <div className="flex-grow"></div>
+          <div className="flex flex-row justify-between m-5">
+            <div className="flex flex-row space-x-20">
+              <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                  Tasks
+                </span>
+              </div >
+              <div className="relative inline-block hover:scale-110" onClick={openInsights}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
+                  Insights
+                </span>
               </div>
 
               <div>
