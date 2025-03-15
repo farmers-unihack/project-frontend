@@ -17,7 +17,7 @@ function Landing() {
     <div style={{ backgroundColor: '#472200' }} className="min-h-screen flex flex-col 
                     items-center justify-center overflow-x-hidden"
     >
-      <h1 style={{ fontFamily: "'Press Start 2P', cursive" }} className="text-white text-xl font-bold">Welcome To Your Favourite</h1>
+      <h1 style={{ fontFamily: "'Press Start 2P', cursive" }} className="text-white text-l font-bold">Welcome To Your Favourite Coffee Shop</h1>
       <img 
           src={coffeeShopImage} 
           alt="Coffee Shop Logo" 
