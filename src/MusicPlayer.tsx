@@ -18,7 +18,7 @@ const togglePlayPause = () => {
 return (
   <button 
     onClick={togglePlayPause} 
-    className="absolute bottom-5 left-1/2 transform -translate-x-1/2 p-3"
+    className="absolute bottom-5 left-1/2 transform -translate-x-1/2 p-3 pointer-events-auto"
     style={{
         background: 'none', 
         border: 'none', 

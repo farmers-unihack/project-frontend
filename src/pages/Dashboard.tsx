@@ -53,10 +53,7 @@ const Dashboard: React.FC = () => {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
-      <div className="absolute inset-0 z-1000">
-        <MusicPlayer className="pointer-events-auto" />
-      </div>
-      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-20 ">
+      <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
         <img 
           src={soundBarImage} 
           alt="Sound Bar" 
@@ -110,6 +107,9 @@ const Dashboard: React.FC = () => {
             onClick={toggleRain}
             style={{ width: '80px', height: '80px', cursor: 'pointer' }}
           />
+        </div>
+        <div className="absolute inset-0 pointer-events-none">
+          <MusicPlayer className="pointer-events-auto" />
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
