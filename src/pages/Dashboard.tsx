@@ -7,6 +7,7 @@ import three_cat from '../assets/game_states/three-cat.png';
 import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud"; 
+import BlocklistModal from "../BlocklistModal";
 
 import DashboardButton from '../DashboardButton';
 import Modal from '../Modal';
@@ -17,12 +18,15 @@ import Starfall from '../Starfall';
 const Dashboard: React.FC = () => {
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
 
   const openInsights = (): void => setIsInsightsOpen(true);
   const closeInsights = (): void => setIsInsightsOpen(false);
   const openModal = (): void => setIsModalOpen(true);
   const closeModal = (): void => setIsModalOpen(false);
+  const openBlocklist = (): void => setIsBlocklistOpen(true);
+  const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
 
   const numUsers = 4;
@@ -50,7 +54,6 @@ const Dashboard: React.FC = () => {
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="10%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="20%" left="-300px" />
-        <Cloud animationClass="animate-cloud3" top="40%" left="-250px" />
       </div>
       
       <div
@@ -75,6 +78,13 @@ const Dashboard: React.FC = () => {
             Tasks
           </DashboardButton>
           <DashboardButton
+            onClick={openBlocklist}
+            className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
+            style={{ fontSize: "28px" }}
+          >
+            Blocklist
+          </DashboardButton>
+          <DashboardButton
             onClick={openInsights}
             className="px-6 py-2 text-white bg-blue-600 font-bold rounded-lg shadow-md hover:bg-blue-700"
             style={{ fontSize: "28px" }}
@@ -92,6 +102,7 @@ const Dashboard: React.FC = () => {
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} />
         <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
+        <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
       </div>
       <style>
         {`

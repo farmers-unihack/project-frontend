@@ -5,31 +5,47 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import PrettyButton from '../PrettyButton'
 import coffeeShopImage from '../assets/coffee_shop_title.png';
+import restClient from "../utils/rest.util";
 
-function Login({}) {
-  const [name, setName] = useState('');
+function Login({ }) {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
 
-  const login = (e: any) => {
+  const login = async (e: any) => {
     e.preventDefault();
+    const request = await restClient.post('/auth/login', {
+      data: {
+        username: username,
+        password: password
+      }
+    });
+
+    if (!request.success) {
+      // setError(request.data)  // TODO: Implement error handling
+      return
+    }
+
+    localStorage.setItem("accessToken", request.data.token);
+    localStorage.setItem("username", JSON.stringify(request.data.username));
+
     navigate("/dashboard");
   }
 
   return (
-    <div  style={{ backgroundColor: '#472200' }} className="min-h-screen flex 
+    <div style={{ backgroundColor: '#472200' }} className="min-h-screen flex 
                     flex-col items-center justify-center"
     >
-    <img 
-          src={coffeeShopImage} 
-          alt="Coffee Shop Logo" 
-          className="w-auto h-30" // You can adjust the size as needed
-        />
+      <img
+        src={coffeeShopImage}
+        alt="Coffee Shop Logo"
+        className="w-auto h-30" // You can adjust the size as needed
+      />
       <div className="bg-white p-6 rounded-md shadow-md w-full max-w-lg">
         <h2 style={{ color: '#472200' }} className="text-4xl font-bold mb-4 text-center">Login</h2>
-        
-        <Box 
+
+        <Box
           component="form"
           sx={{
             display: 'flex',
@@ -38,24 +54,24 @@ function Login({}) {
           }}
           noValidate
           onSubmit={login}
-        >      
-          <TextField 
-            id="outlined-basic" 
-            label="Name" 
-            variant="outlined" 
-            value={name}
-            onChange={e => setName(e.target.value)}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Username"
+            variant="outlined"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
           />
 
-          <TextField 
-            id="outlined-basic" 
-            label="Password" 
-            variant="outlined" 
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
 
-          <PrettyButton 
+          <PrettyButton
             type="submit"
           >
             Login
