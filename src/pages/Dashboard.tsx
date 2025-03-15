@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import backgroundImage from '../assets/game_states/background.png';
 import one_cat from '../assets/game_states/one-cat.png';
 import two_cat from '../assets/game_states/two-cat.png';
 import three_cat from '../assets/game_states/three-cat.png';
 import four_cat from '../assets/game_states/four-cat.png';
 import InsightsModal from "../InsightsModal";
-import Cloud from "../Cloud"; 
+import Cloud from "../Cloud";
 import BlocklistModal from "../BlocklistModal";
 import soundBarImage from '../assets/sound_bar.png';
 import { collectibles } from "../collectibles";
@@ -20,9 +20,15 @@ import darkBush from '../assets/darkbush.png'
 import CollectibleComponents from '../CollectibleComponents';
 import moon from '../assets/moon.png';
 import cloud from '../assets/cloud.png';
+import restClient from '../utils/rest.util';
 
 
 const Dashboard: React.FC = () => {
+  const POLLING_INTERVAL = 60e3; // 1 minute
+  const [numActiveUsers, setNumActiveUsers] = useState<number>(0);
+  const [totalFocusTime, setTotalFocusTime] = useState<number>(0); // in seconds
+  const [collectibles, setCollectibles] = useState([]);
+
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
@@ -36,10 +42,29 @@ const Dashboard: React.FC = () => {
   const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
 
-  const numUsers: number = 4;
-  //TODO: numUsers should be retrieved from api call
+  const pollGroupStatus = async () => {
+    try {
+      const response = await restClient.get('/group/poll');
+      if (response.success) {
+        setNumActiveUsers(response.data.num_active_users);
+        setTotalFocusTime(response.data.total_time);
+        setCollectibles(response.data.collectibles);
+      }
+    } catch (error) {
+      console.error('Failed to poll group status', error);
+    }
+  }
+
+  useEffect(() => {
+    pollGroupStatus();
+    const interval = setInterval(() => {
+      pollGroupStatus();
+    }, POLLING_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
   const getBackgroundImage = () => {
-    switch (numUsers) {
+    switch (numActiveUsers) {
       case 1:
         return one_cat;
       case 2:
@@ -57,23 +82,23 @@ const Dashboard: React.FC = () => {
     <div className="relative w-screen h-screen overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
         style={{
-          background: showRain ? "#71687a" : "#a7cbef", 
+          background: showRain ? "#71687a" : "#a7cbef",
         }}
       >
         {showRain ? <RainEffect /> : <Starfall />}
       </div>
       <div className="absolute bottom- left-1/2 transform -translate-x-[52%] z-0">
-         <img 
-           src={soundBarImage} 
-           alt="Sound Bar" 
-           className="w-[300px] h-[100px] mt-170" 
-         />
-       </div>
+        <img
+          src={soundBarImage}
+          alt="Sound Bar"
+          className="w-[300px] h-[100px] mt-170"
+        />
+      </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
         <Cloud animationClass="animate-cloud1" top="5%" left="-200px" />
         <Cloud animationClass="animate-cloud2" top="15%" left="-300px" />
       </div>
-      
+
       <div
         className="absolute inset-0"
         style={{
@@ -85,44 +110,44 @@ const Dashboard: React.FC = () => {
         }}
       />
 
-      
-      <CollectibleComponents/>
+
+      <CollectibleComponents />
       <div className="absolute inset-0 z-30">
         <div className="min-h-screen flex flex-col">
           <div className="flex-grow"></div>
-            <div className="flex flex-row justify-between m-5">
-              <div className="flex flex-row space-x-20">
-                <div className="relative inline-block hover:scale-110" onClick={openModal}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span  style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
-                    Tasks
-                  </span>
-                </div >
-                <div className="relative inline-block hover:scale-110"  onClick={openInsights}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
-                    Insights
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-row space-x-20">
-                <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
-                    Blocklist
-                  </span>
-                </div>
-                <div className="relative inline-block hover:scale-110">
-                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
-                    Inventory
-                  </span>
-                </div>
+          <div className="flex flex-row justify-between m-5">
+            <div className="flex flex-row space-x-20">
+              <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                  Tasks
+                </span>
+              </div >
+              <div className="relative inline-block hover:scale-110" onClick={openInsights}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
+                  Insights
+                </span>
               </div>
             </div>
+
+            <div className="flex flex-row space-x-20">
+              <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                  Blocklist
+                </span>
+              </div>
+              <div className="relative inline-block hover:scale-110">
+                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                  Inventory
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        
+
         <div className="absolute top-4 right-4">
           <img
             className="hover:scale-110"
@@ -136,7 +161,7 @@ const Dashboard: React.FC = () => {
           <MusicPlayer className="pointer-events-auto" />
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} />
-        <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} />
+        <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
         <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
       </div>
       <style>
