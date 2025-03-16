@@ -31,6 +31,7 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
     }
     const sortedUsers = [...users].sort((a, b) => b.seconds - a.seconds);
     setUsers(sortedUsers)
+    console.log(userLeaderboard)
     console.log(sortedUsers)
   }, [userLeaderboard])
 
