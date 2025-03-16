@@ -181,9 +181,6 @@ const Dashboard: React.FC = () => {
               style={{ width: '80px', cursor: 'pointer' }}
             />
           </div>
-          <Modal isOpen={isModalOpen} onClose={closeModal} />
-          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
-          <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
         </div>
           <style>
             {`

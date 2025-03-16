@@ -13,7 +13,7 @@ interface Url {
   text: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const BlocklistModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [urls, setUrls] = useState<Url[]>([]);
 
   const [newUrl, setNewUrl] = useState('');
@@ -71,4 +71,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default Modal;
+export default BlocklistModal;
