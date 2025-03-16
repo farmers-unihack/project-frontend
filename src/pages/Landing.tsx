@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LandingButton from '../LandingButton'
 import coffeeShopImage from '../assets/coffee_shop_title.png';
 
 function Landing() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      navigate("/prompt");
+    }
+  }, [navigate]);
+
 
   const login = () => {
     navigate("/login");
