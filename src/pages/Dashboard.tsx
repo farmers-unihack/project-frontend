@@ -182,8 +182,8 @@ const Dashboard: React.FC = () => {
         <div className="absolute inset-0 z-30">
           <div className="min-h-screen flex flex-col">
             <div className="flex-grow"></div>
-            <div className="flex flex-row justify-between m-5">
-              <div className="flex flex-row space-x-20 flex-grow">
+            <div className="flex flex-col items-center justify-center, space-y-4">
+              <div className="flex space-x-20 justify-center">
                 <div className="relative inline-block hover:scale-110" onClick={openModal}>
                   <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
                   <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
@@ -206,24 +206,22 @@ const Dashboard: React.FC = () => {
                     <MusicPlayer />
                   </div>
                 </div>
-                <div className="flex flex-row space-x-20">
-                  <div className="relative inline-block hover:scale-110" onClick={openInventory}>
-                    <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                    <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
-                      Inventory
-                    </span>
-                  </div>
-                  <LogoutButton />
+                <div className="relative inline-block hover:scale-110" onClick={openInventory}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                    Inventory
+                  </span>
                 </div>
+                <LogoutButton />
               </div>
               <HomeButton />
-              <div className="absolute top-0 left-45 hover:scale-110" onClick={copyInviteCode}>
+              <div className="absolute top-0 left-30 md:left-45 hover:scale-110" onClick={copyInviteCode}>
                 <img
                   src={roomCodeSign}
                   alt="Sign"
-                  style={{ width: '200px' }}
+                  className="w-30 md:w-40 lg:w-50 max-w-50"
                 />
-                <div style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute top-4/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xl font-bold">
+                <div style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute top-4/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white lg:text-xl font-bold">
                   {roomCode}
                 </div>
               </div>
@@ -265,7 +263,7 @@ const Dashboard: React.FC = () => {
             </style>
           </div>
           <Modal isOpen={isModalOpen} onClose={closeModal} />
-          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} userLeaderboard={userLeaderboard}  />
+          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} userLeaderboard={userLeaderboard} />
           <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)} />
 
         </div>

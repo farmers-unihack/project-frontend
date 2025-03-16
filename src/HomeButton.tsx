@@ -19,13 +19,13 @@ const HomeButton: React.FC = () => {
   return (
     <button
       onClick={handleHome}
-      className="absolute top-10 left-7 hover:scale-110"
+      className="absolute top-4 md:top-10 left-3 md:left-7 hover:scale-110"
       style={{ background: 'none', border: 'none', cursor: 'pointer' }}
     >
       <img
         src={homeIcon}
         alt="Home"
-        className="w-25 h-25"
+        className="aspect-w-1 aspect-h-1 w-16 sm:w-20 md:w-24 lg:w-28 max-w-32"
       />
     </button>
   );
