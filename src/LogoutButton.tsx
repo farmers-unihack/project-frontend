@@ -25,7 +25,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = () => {
       <img
         src={logoutIcon}
         alt="Logout"
-        className="w-40 h-35" 
+        className="h-35" 
         />
     </button>
   );

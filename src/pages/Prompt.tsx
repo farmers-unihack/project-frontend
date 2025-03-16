@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import joinRoom from '../assets/join_room.png';
 import createRoom from '../assets/create_room.png';
@@ -12,7 +12,6 @@ function Prompt() {
   const [meLoading, setMeLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const totalImages = 2;
-  const [imageSrc, setImageSrc] = useState("");
 
   async function handleMe() {
     const res = await restClient.get('/user/me');

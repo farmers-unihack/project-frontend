@@ -4,6 +4,7 @@ import OtherButton from '../OtherButton';
 import Background from '../assets/enter_room_code.png';
 import Loading from './Loading'
 import restClient from "../utils/rest.util";
+import BackButton from '../BackButton';
 
 const Create: React.FC = () => {
   const [groupName, setGroupName] = useState('');
@@ -54,6 +55,9 @@ const Create: React.FC = () => {
         className="flex flex-col items-center justify-center h-screen relative"
         style={{ backgroundColor: '#472200' }}
       >
+        <div className="absolute top-4 left-4">
+          <BackButton />
+        </div>
         <img
           src={Background}
           alt="Coffee Shop Background"

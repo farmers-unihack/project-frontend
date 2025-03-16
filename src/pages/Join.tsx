@@ -4,6 +4,7 @@ import OtherButton from '../OtherButton';
 import Loading from './Loading'
 import Background from '../assets/enter_room_code.png';
 import restClient from "../utils/rest.util";
+import BackButton from '../BackButton';
 
 const Join: React.FC = () => {
 
@@ -58,6 +59,9 @@ const Join: React.FC = () => {
         className="flex flex-col items-center justify-center h-screen relative"
         style={{ backgroundColor: '#472200' }}
       >
+        <div className="absolute top-4 left-4">
+          <BackButton />
+        </div>
         <img
           src={Background}
           alt="Coffee Shop Background"

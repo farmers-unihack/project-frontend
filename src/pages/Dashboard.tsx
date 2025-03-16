@@ -86,12 +86,13 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (!token) {
-      navigate("/");
-    }
-    else {
-      handleMe();
-    }
+    setMeLoading(false);
+    // if (!token) {
+    //   navigate("/");
+    // }
+    // else {
+    //   handleMe();
+    // }
   }, [navigate]);
 
   const openInsights = (): void => setIsInsightsOpen(true);
