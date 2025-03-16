@@ -59,7 +59,7 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
                 fontFamily: '"Gloria Hallelujah", cursive',
               }}
             >
-              {totalFocusTime} hours!!
+              {convertSecondsToHumanReadable(totalFocusTime)} !!
             </div>
             <StyledText>
               Current Leaderboard:
@@ -75,7 +75,7 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
                     fontFamily: '"Gloria Hallelujah", cursive',
                   }}
                 >
-                  {index + 1}. {user.username} - {user.time} hours
+                  {index + 1}. {user.username} - {user.time}
                 </li>
               ))}
             </ul>
