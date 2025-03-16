@@ -1,11 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import homeIcon from './assets/home.png';
+import restClient from './utils/rest.util';
 
 const HomeButton: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleHome = () => {
+
+  async function handleHome(e: any) {
+
+    e.preventDefault();
+
+    await restClient.post('/group/leave');
+
     navigate('/prompt');
   };
 
