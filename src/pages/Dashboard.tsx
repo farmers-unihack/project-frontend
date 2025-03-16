@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
       if (response.success) {
         console.log(response)
         setActiveUsers(response.data.active_users);
-        setTotalFocusTime(Math.round(response.data.total_time_seconds / 3600));
+        setTotalFocusTime(Math.round(response.data.total_time_seconds));
         setCollectibles(response.data.collectibles);
         setUserLeaderboard(response.data.users);
       }
