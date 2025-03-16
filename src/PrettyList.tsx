@@ -5,10 +5,10 @@ import TextField from '@mui/material/TextField';
 interface PrettyListProps {
   tasks: { 
     id: string;
-    text: string;
+    name: string;
     completed: boolean;
   }[];
-  toggleTaskCompletion: (taskId: string) => void;
+  toggleTaskCompletion: (taskId: string, taskCompleted: boolean) => void;
   newTask: string;
   handleNewTaskInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleNewTaskSubmit: () => void;
@@ -23,11 +23,11 @@ const PrettyList: React.FC<PrettyListProps> = ({ tasks, toggleTaskCompletion, ne
         <input
           type="checkbox"
           checked={task.completed}
-          onChange={() => toggleTaskCompletion(task.id)}
+          onChange={() => toggleTaskCompletion(task.id, task.completed)}
           className="cursor-pointer task-checkbox mt-2"
         />
-        <span onClick={() => toggleTaskCompletion(task.id)} className={`hover:line-through whitespace-nowrap hover:text-gray-200 cursor-pointer ${task.completed ? 'line-through text-gray-200' : ''}`}>
-          {task.text}
+        <span onClick={() => toggleTaskCompletion(task.id, task.completed)} className={`hover:line-through whitespace-nowrap hover:text-gray-200 cursor-pointer ${task.completed ? 'line-through text-gray-200' : ''}`}>
+          {task.name}
         </span>
       </li>
     ))}
