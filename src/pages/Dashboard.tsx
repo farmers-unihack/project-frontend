@@ -37,6 +37,7 @@ const Dashboard: React.FC = () => {
   const [showRain, setShowRain] = useState<boolean>(true);
   const [loading, setLoading] = useState(true);
   const [roomCode, setRoomCode] = useState<string>('');
+  const [meLoading, setMeLoading] = useState(true);
 
   useEffect(() => {
     const img = new Image();
@@ -67,11 +68,31 @@ const Dashboard: React.FC = () => {
 
   const navigate = useNavigate();
 
+  async function handleMe() {
+    const res = await restClient.get('/user/me');
+
+    if (!res.success) {
+      console.log("failed")
+      return;  // TODO: this should never happen
+    }
+
+    setTimeout(() => {
+      setMeLoading(false);
+    }, 2000);
+
+    if (!res.data.in_group) {
+      navigate("/prompt");
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    // if (!token) {
-    //   navigate("/");
-    // }
+    if (!token) {
+      navigate("/");
+    }
+    else {
+      handleMe();
+    }
   }, [navigate]);
 
   const openInsights = (): void => setIsInsightsOpen(true);
@@ -90,7 +111,8 @@ const Dashboard: React.FC = () => {
       if (response.success) {
         setActiveUsers(response.data.active_users);
         setTotalFocusTime(response.data.total_time);
-        setCollectibles(response.data.collectibles);
+        // setCollectibles(response.data.collectibles.id);
+        setCollectibles([]);
       }
     } catch (error) {
       console.error('Failed to poll group status', error);
@@ -119,7 +141,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      {loading && <Loading />}
+      {(loading || meLoading) && <Loading />}
       <div className="relative w-screen h-screen overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{
@@ -162,7 +184,7 @@ const Dashboard: React.FC = () => {
           <div className="min-h-screen flex flex-col">
             <div className="flex-grow"></div>
             <div className="flex flex-row justify-between m-5">
-              <div className="flex flex-row space-x-20">
+              <div className="flex flex-row space-x-20 flex-grow">
                 <div className="relative inline-block hover:scale-110" onClick={openModal}>
                   <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
                   <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
@@ -175,7 +197,6 @@ const Dashboard: React.FC = () => {
                     Insights
                   </span>
                 </div>
-
                 <div>
                   <div>
                     <img
@@ -186,7 +207,6 @@ const Dashboard: React.FC = () => {
                     <MusicPlayer />
                   </div>
                 </div>
-
                 <div className="flex flex-row space-x-20">
                   <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
                     <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
