@@ -6,12 +6,11 @@ import logoutIcon from './assets/logout.png';
 const LogoutButton: React.FC<LogoutButtonProps> = () => {
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await restClient.post('/auth/logout');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+  const handleLogout = async (e: any) => {
+    e.preventDefault()
+
+    localStorage.removeItem('accessToken');
+
     navigate('/login');
   };
 
