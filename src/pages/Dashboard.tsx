@@ -38,6 +38,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [roomCode, setRoomCode] = useState<string>('');
   const [meLoading, setMeLoading] = useState(true);
+  const [userLeaderboard, setUserLeaderboard] = useState<{ username: string, focus_time_seconds: number }[]>([]);
 
   useEffect(() => {
     const img = new Image();
@@ -109,10 +110,12 @@ const Dashboard: React.FC = () => {
     try {
       const response = await restClient.get('/group/poll');
       if (response.success) {
+        console.log(response)
         setActiveUsers(response.data.active_users);
-        setTotalFocusTime(response.data.total_time);
+        setTotalFocusTime(Math.round(response.data.total_time_seconds / 3600));
         // setCollectibles(response.data.collectibles.id);
         setCollectibles([]);
+        setUserLeaderboard(response.data.users);
       }
     } catch (error) {
       console.error('Failed to poll group status', error);
@@ -272,7 +275,7 @@ const Dashboard: React.FC = () => {
             </style>
           </div>
           <Modal isOpen={isModalOpen} onClose={closeModal} />
-          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
+          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} userLeaderboard={userLeaderboard}  />
           <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
           <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)} />
         </div>
