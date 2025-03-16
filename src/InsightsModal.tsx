@@ -8,7 +8,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   totalFocusTime: number;
-  userLeaderboard: any;
+  userLeaderboard: {username: string, focus_time_seconds: number}[];
 }
 
 const convertSecondstoTime = (input_seconds: number) => {
@@ -29,10 +29,8 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
     for (let x of userLeaderboard) {
       track.push({ username: x.username, seconds: x.focus_time_seconds, time: convertSecondstoTime(x.focus_time_seconds) });
     }
-    const sortedUsers = [...users].sort((a, b) => b.seconds - a.seconds);
+    const sortedUsers = track.sort((a, b) => b.seconds - a.seconds);
     setUsers(sortedUsers)
-    console.log(userLeaderboard)
-    console.log(sortedUsers)
   }, [userLeaderboard])
 
   // Get from backend the users array and sort in descending order comparing hours
