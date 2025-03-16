@@ -109,8 +109,7 @@ const Dashboard: React.FC = () => {
         console.log(response)
         setActiveUsers(response.data.active_users);
         setTotalFocusTime(Math.round(response.data.total_time_seconds / 3600));
-        // setCollectibles(response.data.collectibles.id);
-        setCollectibles([]);
+        setCollectibles(response.data.collectibles);
         setUserLeaderboard(response.data.users);
       }
     } catch (error) {
