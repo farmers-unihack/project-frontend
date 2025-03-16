@@ -5,7 +5,6 @@ import third_cat from '../assets/cat_layers/third_cat.png';
 import fourth_cat from '../assets/cat_layers/fourth_cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud";
-import BlocklistModal from "../BlocklistModal";
 import { useNavigate } from 'react-router-dom';
 import soundBarImage from '../assets/sound_bar.png';
 import Modal from '../Modal';
@@ -32,7 +31,6 @@ const Dashboard: React.FC = () => {
 
   const [isInsightsOpen, setIsInsightsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isBlocklistOpen, setIsBlocklistOpen] = useState<boolean>(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
   const [loading, setLoading] = useState(true);
@@ -63,7 +61,7 @@ const Dashboard: React.FC = () => {
 
   const copyInviteCode = () => {
     // pop up a notification
-    
+
     navigator.clipboard.writeText(roomCode);
   }
 
@@ -100,8 +98,6 @@ const Dashboard: React.FC = () => {
   const closeInsights = (): void => setIsInsightsOpen(false);
   const openModal = (): void => setIsModalOpen(true);
   const closeModal = (): void => setIsModalOpen(false);
-  const openBlocklist = (): void => setIsBlocklistOpen(true);
-  const closeBlocklist = (): void => setIsBlocklistOpen(false);
   const toggleRain = (): void => setShowRain(prev => !prev);
   const openInventory = (): void => setIsInventoryOpen(true);
   const closeInventory = (): void => setIsInventoryOpen(false);
@@ -113,8 +109,7 @@ const Dashboard: React.FC = () => {
         console.log(response)
         setActiveUsers(response.data.active_users);
         setTotalFocusTime(Math.round(response.data.total_time_seconds / 3600));
-        // setCollectibles(response.data.collectibles.id);
-        setCollectibles([]);
+        setCollectibles(response.data.collectibles);
         setUserLeaderboard(response.data.users);
       }
     } catch (error) {
@@ -211,22 +206,16 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-row space-x-20">
-                  <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
-                    <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                    <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
-                      Blocklist
-                    </span>
-                  </div>
                   <div className="relative inline-block hover:scale-110" onClick={openInventory}>
                     <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
                     <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
                       Inventory
                     </span>
                   </div>
+                  <LogoutButton />
                 </div>
               </div>
               <HomeButton />
-              <LogoutButton />
               <div className="absolute top-0 left-45 hover:scale-110" onClick={copyInviteCode}>
                 <img
                   src={roomCodeSign}
@@ -276,8 +265,8 @@ const Dashboard: React.FC = () => {
           </div>
           <Modal isOpen={isModalOpen} onClose={closeModal} />
           <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} userLeaderboard={userLeaderboard}  />
-          <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
           <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)} />
+
         </div>
       </div>
     </div>

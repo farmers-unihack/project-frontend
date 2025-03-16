@@ -4,6 +4,7 @@ import joinRoom from '../assets/join_room.png';
 import createRoom from '../assets/create_room.png';
 import Loading from './Loading'
 import restClient from '../utils/rest.util';
+import LogoutButton from '../LogoutButton';
 
 function Prompt() {
   const navigate = useNavigate();
@@ -88,7 +89,9 @@ function Prompt() {
             onLoad={handleImageLoad}
           />
         </div>
+        <LogoutButton />
       </div>
+
     </div>
   );
 }

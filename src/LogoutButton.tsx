@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import restClient from './utils/rest.util';
 import logoutIcon from './assets/logout.png';
 
+interface LogoutButtonProps {}
+
 const LogoutButton: React.FC<LogoutButtonProps> = () => {
   const navigate = useNavigate();
 
@@ -17,13 +19,13 @@ const LogoutButton: React.FC<LogoutButtonProps> = () => {
   return (
     <button
       onClick={handleLogout}
-      className="absolute top-40 left-4 hover:scale-110"
+      className="relative inline-block hover:scale-110"
       style={{ background: 'none', border: 'none', cursor: 'pointer' }}
     >
       <img
         src={logoutIcon}
         alt="Logout"
-        className="w-34 h-34" 
+        className="w-40 h-35" 
         />
     </button>
   );
