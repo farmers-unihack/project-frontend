@@ -35,15 +35,34 @@ const Dashboard: React.FC = () => {
   const [isInventoryOpen, setIsInventoryOpen] = useState<boolean>(false);
   const [showRain, setShowRain] = useState<boolean>(true);
   const [loading, setLoading] = useState(true);
+  const [roomCode, setRoomCode] = useState<string>('');
 
   useEffect(() => {
     const img = new Image();
     img.src = one_cat;
-  
+
     img.onload = () => {
       setLoading(false);
     };
+
+    const fetchRoomCode = async () => {
+      try {
+        const response = await restClient.get('/group/invite');
+        if (response.success) {
+          setRoomCode(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch room code', error);
+      }
+    }
+    fetchRoomCode();
   }, []);
+
+  const copyInviteCode = () => {
+    // pop up a notification
+    
+    navigator.clipboard.writeText(roomCode);
+  }
 
   const openInsights = (): void => setIsInsightsOpen(true);
   const closeInsights = (): void => setIsInsightsOpen(false);
@@ -128,76 +147,78 @@ const Dashboard: React.FC = () => {
           />
         ))}
 
-      <CollectibleComponents collectibleList={collectibles.map(collectible => collectible.id)}/>
-      <div className="absolute inset-0 z-30">
-        <div className="min-h-screen flex flex-col">
-          <div className="flex-grow"></div>
-          <div className="flex flex-row justify-between m-5">
-            <div className="flex flex-row space-x-20">
-              <div className="relative inline-block hover:scale-110" onClick={openModal}>
-                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
-                  Tasks
-                </span>
-              </div >
-              <div className="relative inline-block hover:scale-110" onClick={openInsights}>
-                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
-                  Insights
-                </span>
-              </div>
+        <CollectibleComponents collectibleList={collectibles.map(collectible => collectible.id)} />
+        <div className="absolute inset-0 z-30">
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow"></div>
+            <div className="flex flex-row justify-between m-5">
+              <div className="flex flex-row space-x-20">
+                <div className="relative inline-block hover:scale-110" onClick={openModal}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[30%] text-l">
+                    Tasks
+                  </span>
+                </div >
+                <div className="relative inline-block hover:scale-110" onClick={openInsights}>
+                  <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                  <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[21%] text-l">
+                    Insights
+                  </span>
+                </div>
 
-              <div>
                 <div>
-                  <img
-                    src={soundBarImage}
-                    alt="Sound Bar"
-                    className="w-[300px] h-[100px] mt-10"
-                  />
-                  <MusicPlayer />
+                  <div>
+                    <img
+                      src={soundBarImage}
+                      alt="Sound Bar"
+                      className="w-[300px] h-[100px] mt-10"
+                    />
+                    <MusicPlayer />
+                  </div>
+                </div>
+
+                <div className="flex flex-row space-x-20">
+                  <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
+                    <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                    <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
+                      Blocklist
+                    </span>
+                  </div>
+                  <div className="relative inline-block hover:scale-110" onClick={openInventory}>
+                    <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
+                    <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
+                      Inventory
+                    </span>
+                  </div>
                 </div>
               </div>
-
-            <div className="flex flex-row space-x-20">
-              <div className="relative inline-block hover:scale-110" onClick={openBlocklist}>
-                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[20%] text-l">
-                  Blocklist
-                </span>
+              <HomeButton />
+              <LogoutButton />
+              <div className="absolute top-0 left-45 hover:scale-110" onClick={copyInviteCode}>
+                <img
+                  src={roomCodeSign}
+                  alt="Sign"
+                  style={{ width: '200px' }}
+                />
+                <div style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute top-4/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xl font-bold">
+                  {roomCode}
+                </div>
               </div>
-              <div className="relative inline-block hover:scale-110" onClick={openInventory}>
-                <img src={showRain ? darkBush : bush} alt="Modal Frame" className="h-35" />
-                <span style={{ fontFamily: "'Press Start 2P', cursive" }} className="absolute text-white top-[66%] left-[18%] text-l">
-                  Inventory
-                </span>
+              <div className="absolute top-4 right-4">
+                <img
+                  className="hover:scale-110"
+                  src={showRain ? cloud : moon}
+                  alt="Toggle Rain"
+                  onClick={toggleRain}
+                  style={{ width: '80px', cursor: 'pointer' }}
+                />
               </div>
+              <Modal isOpen={isModalOpen} onClose={closeModal} />
+              <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
+              <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
             </div>
-          </div>
-          <HomeButton/>
-          <LogoutButton/>
-          <div className="absolute top-0 left-45">
-            <img
-              className="hover:scale-110"
-              src={roomCodeSign}
-              alt="Sign"
-              style={{ width: '200px'}}
-            />
-          </div>
-          <div className="absolute top-4 right-4">
-            <img
-              className="hover:scale-110"
-              src={showRain ? cloud : moon}
-              alt="Toggle Rain"
-              onClick={toggleRain}
-              style={{ width: '80px', cursor: 'pointer' }}
-            />
-          </div>
-          <Modal isOpen={isModalOpen} onClose={closeModal} />
-          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
-          <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
-        </div>
-          <style>
-            {`
+            <style>
+              {`
               @keyframes cloudMove1 {
                 0% { transform: translateX(-200px); opacity: 0.8; }
                 100% { transform: translateX(120vw); opacity: 1; }
@@ -221,12 +242,12 @@ const Dashboard: React.FC = () => {
                 animation: cloudMove3 25s linear infinite;
               }
             `}
-          </style>
-        </div>
-        <Modal isOpen={isModalOpen} onClose={closeModal} />
-        <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
-        <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
-        <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)}/>
+            </style>
+          </div>
+          <Modal isOpen={isModalOpen} onClose={closeModal} />
+          <InsightsModal isOpen={isInsightsOpen} onClose={closeInsights} totalFocusTime={totalFocusTime} />
+          <BlocklistModal isOpen={isBlocklistOpen} onClose={closeBlocklist} />
+          <InventoryModal isOpen={isInventoryOpen} onClose={closeInventory} unlockedCollectibles={collectibles.map(collectible => collectible.id)} />
         </div>
       </div>
     </div>
