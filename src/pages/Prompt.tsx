@@ -3,18 +3,41 @@ import { useNavigate } from "react-router-dom";
 import joinRoom from '../assets/join_room.png';
 import createRoom from '../assets/create_room.png';
 import Loading from './Loading'
+import restClient from '../utils/rest.util';
 
 function Prompt() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [meLoading, setMeLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const totalImages = 2;
   const [imageSrc, setImageSrc] = useState("");
 
+  async function handleMe() {
+    const res = await restClient.get('/user/me');
+
+    if (!res.success) {
+      console.log("failed")
+      return;  // TODO: this should never happen
+    }
+
+    setTimeout(() => {
+      setMeLoading(false);
+    }, 2000);
+
+    if (res.data.in_group) {
+      navigate("/dashboard");
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
+      setMeLoading(false);
       navigate("/");
+    }
+    else {  // Case where you are logged in
+      handleMe();
     }
   }, [navigate]);
 
@@ -37,7 +60,7 @@ function Prompt() {
 
   return (
     <div>
-      {loading && <Loading />}
+      {(loading || meLoading) && <Loading />}
       <div
         style={{ backgroundColor: '#472200' }}
         className="min-h-screen flex flex-col items-center justify-center overflow-x-hidden"

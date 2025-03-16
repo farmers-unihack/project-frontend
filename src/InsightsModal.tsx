@@ -8,16 +8,16 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   totalFocusTime: number;
+  userLeaderboard: any;
 }
 
-const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime }) => {
+const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, userLeaderboard }) => {
+  console.log(totalFocusTime)
   // const [users, setUsers] = useState<{ username: string, hours: number }[]>([]);
-  const [users, setUsers] = useState([
-    { username: 'Ali', hours: 10 },
-    { username: 'Frances', hours: 8 },
-    { username: 'Matthew', hours: 12 },
-    { username: 'Oscar', hours: 9 },
-  ]);
+  const users: any = [];
+  for (let i = 0; i < userLeaderboard.length; i++) {
+    users.push({ username: userLeaderboard[i].username, hours: Math.round(userLeaderboard[i].focus_time_seconds / 3600) });
+  }
   const sortedUsers = [...users].sort((a, b) => b.hours - a.hours);
 
   // Get from backend the users array and sort in descending order comparing hours
