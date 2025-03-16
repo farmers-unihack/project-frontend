@@ -11,7 +11,7 @@ interface ModalProps {
   userLeaderboard: any;
 }
 
-const convertSecondstoTime = (input_seconds) => {
+const convertSecondstoTime = (input_seconds: number) => {
   let hours = Math.floor(input_seconds / 3600);
   let minutes = Math.floor((input_seconds - (hours * 3600)) / 60);
   let seconds = input_seconds - (hours * 3600) - (minutes * 60);
@@ -31,6 +31,7 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
     }
     const sortedUsers = [...users].sort((a, b) => b.seconds - a.seconds);
     setUsers(sortedUsers)
+    console.log(sortedUsers)
   }, [userLeaderboard])
 
   // Get from backend the users array and sort in descending order comparing hours
