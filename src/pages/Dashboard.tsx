@@ -6,6 +6,7 @@ import fourth_cat from '../assets/cat_layers/fourth_cat.png';
 import InsightsModal from "../InsightsModal";
 import Cloud from "../Cloud";
 import BlocklistModal from "../BlocklistModal";
+import { useNavigate } from 'react-router-dom';
 import soundBarImage from '../assets/sound_bar.png';
 import Modal from '../Modal';
 import RainEffect from '../RainEffect';
@@ -63,6 +64,15 @@ const Dashboard: React.FC = () => {
     
     navigator.clipboard.writeText(roomCode);
   }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const openInsights = (): void => setIsInsightsOpen(true);
   const closeInsights = (): void => setIsInsightsOpen(false);

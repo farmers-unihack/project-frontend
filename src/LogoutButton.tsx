@@ -11,7 +11,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = () => {
 
     localStorage.removeItem('accessToken');
 
-    navigate('/login');
+    navigate('/');
   };
 
   return (
