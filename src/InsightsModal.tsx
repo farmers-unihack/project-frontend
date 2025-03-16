@@ -8,17 +8,14 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   totalFocusTime: number;
-  userLeaderboard: {username: string, focus_time_seconds: number}[];
+  userLeaderboard: { username: string, focus_time_seconds: number }[];
 }
 
-const convertSecondstoTime = (input_seconds: number) => {
+const convertSecondsToHumanReadable = (input_seconds: number) => {
   let hours = Math.floor(input_seconds / 3600);
   let minutes = Math.floor((input_seconds - (hours * 3600)) / 60);
-  let seconds = input_seconds - (hours * 3600) - (minutes * 60);
-
   return hours.toString().padStart(2, '0') + ':' +
-    minutes.toString().padStart(2, '0') + ':' +
-    seconds.toString().padStart(2, '0');
+    minutes.toString().padStart(2, '0')
 }
 
 const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, userLeaderboard }) => {
@@ -27,7 +24,7 @@ const InsightsModal: React.FC<ModalProps> = ({ isOpen, onClose, totalFocusTime, 
   useEffect(() => {
     const track = []
     for (let x of userLeaderboard) {
-      track.push({ username: x.username, seconds: x.focus_time_seconds, time: convertSecondstoTime(x.focus_time_seconds) });
+      track.push({ username: x.username, seconds: x.focus_time_seconds, time: convertSecondsToHumanReadable(x.focus_time_seconds) });
     }
     const sortedUsers = track.sort((a, b) => b.seconds - a.seconds);
     setUsers(sortedUsers)
